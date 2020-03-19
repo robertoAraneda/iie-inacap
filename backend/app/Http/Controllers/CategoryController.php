@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividades;
+use App\Category;
 use Illuminate\Http\Request;
 use App\ReplaceChar;
 
-class ActividadesController extends Controller
+class CategoryController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -15,11 +15,12 @@ class ActividadesController extends Controller
    */
   public function index()
   {
-    $activities = Actividades::orderBy('idactividad')->get();
+    $categories = Category::orderBy('idcategory')->get();
 
-    $activities = ReplaceChar::replaceStrangeCharacter($activities);
 
-    return response()->json(['data' => $activities], 200);
+    $categories = ReplaceChar::replaceStrangeCharacter($categories);
+
+    return response()->json(['data' => $categories], 200);
   }
 
   /**
