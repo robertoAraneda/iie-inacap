@@ -17,7 +17,7 @@ class InscritoActividadController extends Controller
   {
     $registeredActivities = InscritoActividad::orderBy('idinscritoactividad')->get();
 
-    $registeredActivities = ReplaceChar::replaceStrangeCharacter($registeredActivities);
+    $registeredActivities = ReplaceChar::replaceStrangeCharacterArray($registeredActivities);
 
     return response()->json(['data' => $registeredActivities], 200);
   }

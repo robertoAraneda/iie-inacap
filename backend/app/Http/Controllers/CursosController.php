@@ -17,7 +17,7 @@ class CursosController extends Controller
   {
     $courses = Cursos::orderBy('idrcurso')->get();
 
-    $courses = ReplaceChar::replaceStrangeCharacter($courses);
+    $courses = ReplaceChar::replaceStrangeCharacterArray($courses);
 
     // $courses->map(function ($course) {
     //   $course['links'] = ['url' => 'http://127.0.0.1:8000/api/cursos/' . $course->idrcurso];
