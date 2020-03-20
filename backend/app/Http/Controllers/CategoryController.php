@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
-use App\ReplaceChar;
 
 class CategoryController extends Controller
 {
@@ -15,12 +15,15 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    $categories = Category::orderBy('idcategory')->get();
+    // $categories = Category::orderBy('idcategory')->get();
 
 
-    $categories = ReplaceChar::replaceStrangeCharacter($categories);
+    // $categories = ReplaceChar::replaceStrangeCharacter($categories);
 
-    return response()->json(['data' => $categories], 200);
+    // return response()->json(['data' => $categories], 200);
+
+    //return new CategoryCollection(Category::all());
+    return (CategoryCollection::collection(Category::paginate()))->response();
   }
 
   /**

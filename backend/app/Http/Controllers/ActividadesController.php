@@ -17,7 +17,7 @@ class ActividadesController extends Controller
   {
     $activities = Actividades::orderBy('idactividad')->get();
 
-    $activities = ReplaceChar::replaceStrangeCharacter($activities);
+    $activities = ReplaceChar::replaceStrangeCharacterArray($activities);
 
     return response()->json(['data' => $activities], 200);
   }
