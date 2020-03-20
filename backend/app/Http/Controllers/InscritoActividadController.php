@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\InscritoActividad;
+use App\Http\Resources\InscritoActividad as ResourceInscritoActividad;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
@@ -15,11 +16,7 @@ class InscritoActividadController extends Controller
    */
   public function index()
   {
-    $registeredActivities = InscritoActividad::orderBy('idinscritoactividad')->get();
-
-    $registeredActivities = ReplaceChar::replaceStrangeCharacterArray($registeredActivities);
-
-    return response()->json(['data' => $registeredActivities], 200);
+    return (ResourceInscritoActividad::collection(InscritoActividad::paginate()))->response();
   }
 
   /**
@@ -41,9 +38,20 @@ class InscritoActividadController extends Controller
    */
   public function show($id)
   {
-    $registeredActivity = InscritoActividad::find($id)->get();
+    $registeredActivity = InscritoActividad::where('idinscritoactividad', $id)->first();
 
-    return response()->json(['data' => $registeredActivity], 200);
+    $registeredActivity->estado = ReplaceChar::replaceStrangeCharacterString($registeredActivity->estado);
+
+    $registeredActivity->calificacion = ReplaceChar::replaceStrangeCharacterString($registeredActivity->calificacion);
+
+    $registeredActivity->timemodified = ReplaceChar::replaceStrangeCharacterString($registeredActivity->timemodified);
+
+    $registeredActivity->ultact = ReplaceChar::replaceStrangeCharacterString($registeredActivity->finalizado);
+
+    return response()->json([
+      'data' => $registeredActivity,
+      'links' => ['href' => 'http://localhost:8000/api/inscrito-actividad/' . $id, 'type' => 'GET']
+    ], 200);
   }
 
   /**

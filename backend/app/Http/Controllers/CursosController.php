@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cursos;
+use App\Http\Resources\Cursos as ResourceCursos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
@@ -15,17 +16,7 @@ class CursosController extends Controller
    */
   public function index()
   {
-    $courses = Cursos::orderBy('idrcurso')->get();
-
-    $courses = ReplaceChar::replaceStrangeCharacterArray($courses);
-
-    // $courses->map(function ($course) {
-    //   $course['links'] = ['url' => 'http://127.0.0.1:8000/api/cursos/' . $course->idrcurso];
-
-    //   return $course;
-    // });
-
-    return response()->json(['data' => $courses], 200);
+    return (ResourceCursos::collection(Cursos::paginate()))->response();
   }
 
   /**
@@ -47,9 +38,14 @@ class CursosController extends Controller
    */
   public function show($id)
   {
-    $course = Cursos::find($id)->get();
+    $course = Cursos::where('idrcurso', $id)->first();
 
-    return response()->json(['data' => $course], 200);
+    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
+
+    return response()->json([
+      'data' => $course,
+      'links' => ['href' => 'http://localhost:8000/api/cursos/' . $id, 'type' => 'GET']
+    ], 200);
   }
 
   /**

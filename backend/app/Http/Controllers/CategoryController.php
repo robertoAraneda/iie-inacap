@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\Category as CategoryResource;
+use App\ReplaceChar;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,15 +16,7 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    // $categories = Category::orderBy('idcategory')->get();
-
-
-    // $categories = ReplaceChar::replaceStrangeCharacter($categories);
-
-    // return response()->json(['data' => $categories], 200);
-
-    //return new CategoryCollection(Category::all());
-    return (CategoryCollection::collection(Category::paginate()))->response();
+    return (CategoryResource::collection(Category::paginate()))->response();
   }
 
   /**
@@ -45,7 +38,17 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    //
+    $category = Category::where('idcategory', $id)->first();
+
+    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+
+    return response()->json([
+      'data' => $category,
+      'links' => [
+        'href' => 'http://localhost:8000/api/category/' . $id,
+        'type' => 'GET'
+      ]
+    ], 200);
   }
 
   /**

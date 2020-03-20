@@ -5,7 +5,8 @@ namespace App\Http\Resources;
 use App\ReplaceChar;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryCollection extends JsonResource
+
+class Cursos extends JsonResource
 {
   /**
    * Transform the resource collection into an array.
@@ -15,16 +16,18 @@ class CategoryCollection extends JsonResource
    */
   public function toArray($request)
   {
-    //return parent::toArray($request);
+    // return parent::toArray($request);
 
     return [
+      'idrcurso' => $this->idrcurso,
+      'activo' => $this->activo,
+      'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
+      'idcurso' => $this->idcurso,
       'idcategory' => $this->idcategory,
       'idplataforma' => $this->idplataforma,
-      'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
-      'active' => $this->active,
-      'downloadlogs' => $this->downloadlogs,
+      'timeultimocceso' => $this->timeultimocceso,
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $this->idcategory,
+        'href' => 'http://localhost:8000/api/cursos/' . $this->idrcurso,
         'type' => 'GET'
       ]
     ];
