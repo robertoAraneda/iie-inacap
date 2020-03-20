@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InscritoActividad extends Model
+class Inscritos extends Model
 {
-  protected $table = 'inscritoactividad';
+  protected $table = 'inscritos';
 
-  protected $primaryKey = 'idinscritoactividad';
+  protected $primaryKey = 'idinscrito';
 
   public $preserveKeys = true;
 

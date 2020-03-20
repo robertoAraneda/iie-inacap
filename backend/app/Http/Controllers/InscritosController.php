@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\InscritoActividad;
-use App\Http\Resources\InscritoActividad as ResourceInscritoActividad;
+use App\Inscritos;
+use App\Http\Resources\Inscritos as ResourceInscritos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
-class InscritoActividadController extends Controller
+class InscritosController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +16,8 @@ class InscritoActividadController extends Controller
    */
   public function index()
   {
-    return (ResourceInscritoActividad::collection(InscritoActividad::paginate()))->response();
+    return (ResourceInscritos::collection(Inscritos::paginate()))->response();
+    //
   }
 
   /**
@@ -38,20 +39,16 @@ class InscritoActividadController extends Controller
    */
   public function show($id)
   {
-    $registeredActivity = InscritoActividad::where('idinscritoactividad', $id)->first();
+    $registered = Inscritos::where('idinscrito', $id)->first();
 
-    $registeredActivity->estado = ReplaceChar::replaceStrangeCharacterString($registeredActivity->estado);
+    $registered->ultimoacceso = ReplaceChar::replaceStrangeCharacterString($registered->ultimoacceso);
 
-    $registeredActivity->calificacion = ReplaceChar::replaceStrangeCharacterString($registeredActivity->calificacion);
-
-    $registeredActivity->timemodified = ReplaceChar::replaceStrangeCharacterString($registeredActivity->timemodified);
-
-    $registeredActivity->ultact = ReplaceChar::replaceStrangeCharacterString($registeredActivity->finalizado);
+    $registered->nombre = ReplaceChar::replaceStrangeCharacterString($registered->nombre);
 
     return response()->json([
-      'data' => $registeredActivity,
+      'data' => $registered,
       'links' => [
-        'href' => 'http://localhost:8000/api/inscrito-actividad/' . $id,
+        'href' => 'http://localhost:8000/api/inscritos/' . $id,
         'type' => 'GET'
       ]
     ], 200);
