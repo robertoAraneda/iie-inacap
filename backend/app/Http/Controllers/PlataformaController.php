@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividades;
-use App\Http\Resources\Actividades as ResourceActividades;
-use App\ReplaceChar;
+use App\Plataforma;
+use App\Http\Resources\Plataforma as ResourcePlataforma;
 use Illuminate\Http\Request;
 
-class ActividadesController extends Controller
+class PlataformaController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +15,7 @@ class ActividadesController extends Controller
    */
   public function index()
   {
-    return (ResourceActividades::collection(Actividades::paginate()))->response();
+    return (ResourcePlataforma::collection(Plataforma::paginate()))->response();
   }
 
   /**
@@ -38,14 +37,12 @@ class ActividadesController extends Controller
    */
   public function show($id)
   {
-    $activities = Actividades::where('idactividad', $id)->first();
-
-    $activities->nombre = ReplaceChar::replaceStrangeCharacterString($activities->nombre);
+    $platform = Plataforma::where('idplataforma', $id)->first();
 
     return response()->json([
-      'data' => $activities,
+      'data' => $platform,
       'links' => [
-        'href' => 'http://localhost:8000/api/actividades/' . $id,
+        'href' => 'http://localhost:8000/api/plataforma/' . $id,
         'type' => 'GET'
       ]
     ], 200);

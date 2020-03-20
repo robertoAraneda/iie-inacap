@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Actividades extends Model
+class Plataforma extends Model
 {
-  protected $table = 'actividades';
+  protected $table = 'plataforma';
 
-  protected $primaryKey = 'idactividad';
+  protected $primaryKey = 'idplataforma';
 
   public $preserveKey = true;
 
