@@ -6,6 +6,7 @@ class ReplaceChar
 
 {
 
+  //remplaza los carácteres extraños por letras con tilde o simbolos
   public static function replaceStrangeCharacter($array)
   {
 
