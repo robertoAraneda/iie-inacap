@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Http\Resources\Category as CategoryResource;
+use App\Actividades;
+use App\Cursos;
+use App\Http\Resources\Actividades as ResourceActividades;
+use App\Http\Resources\Cursos as ResourceCursos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CursosController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +18,7 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    return (CategoryResource::collection(Category::paginate()))->response();
+    return (ResourceCursos::collection(Cursos::paginate()))->response();
   }
 
   /**
@@ -38,34 +40,32 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma', 'courses.activities')->first();
+    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
 
-    $courses = ReplaceChar::replaceStrangeCharacterArray($category->courses);
+    $course->category->nombre = ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
 
-    foreach ($courses as $curso) {
-
-      $curso->activities = ReplaceChar::replaceStrangeCharacterArray($curso->activities);
-    }
+    ReplaceChar::replaceStrangeCharacterArray($course->activities);
 
     return response()->json([
-      'data' => $category,
-      'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $id,
-        'type' => 'GET'
-      ]
+      'data' => $course,
+      'links' => ['href' => 'http://localhost:8000/api/cursos/' . $id, 'type' => 'GET']
     ], 200);
   }
 
   public function apiShow($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma')->first();
+    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
 
-    return $category;
+    //ReplaceChar::replaceStrangeCharacterArray($course->activities);
+
+    return $course;
   }
+
+
 
   /**
    * Update the specified resource in storage.

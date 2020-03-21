@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Http\Resources\Category as CategoryResource;
+use App\InscritoActividad;
+use App\Http\Resources\InscritoActividad as ResourceInscritoActividad;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class InscritoActividadController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    return (CategoryResource::collection(Category::paginate()))->response();
+    return (ResourceInscritoActividad::collection(InscritoActividad::paginate()))->response();
   }
 
   /**
@@ -38,33 +38,23 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma', 'courses.activities')->first();
+    $registeredActivity = InscritoActividad::where('idinscritoactividad', $id)->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+    $registeredActivity->estado = ReplaceChar::replaceStrangeCharacterString($registeredActivity->estado);
 
-    $courses = ReplaceChar::replaceStrangeCharacterArray($category->courses);
+    $registeredActivity->calificacion = ReplaceChar::replaceStrangeCharacterString($registeredActivity->calificacion);
 
-    foreach ($courses as $curso) {
+    $registeredActivity->timemodified = ReplaceChar::replaceStrangeCharacterString($registeredActivity->timemodified);
 
-      $curso->activities = ReplaceChar::replaceStrangeCharacterArray($curso->activities);
-    }
+    $registeredActivity->ultact = ReplaceChar::replaceStrangeCharacterString($registeredActivity->finalizado);
 
     return response()->json([
-      'data' => $category,
+      'data' => $registeredActivity,
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $id,
+        'href' => 'http://localhost:8000/api/inscrito-actividad/' . $id,
         'type' => 'GET'
       ]
     ], 200);
-  }
-
-  public function apiShow($id)
-  {
-    $category = Category::where('idcategory', $id)->with('plataforma')->first();
-
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
-
-    return $category;
   }
 
   /**

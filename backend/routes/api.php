@@ -20,3 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/actividades', 'ActividadesController@index');
 Route::get('/category', 'CategoryController@index');
+Route::get('/cursos', 'CursosController@index');
+Route::get('/inscrito-actividad', 'InscritoActividadController@index');
+Route::get('/inscritos', 'InscritosController@index');
+Route::get('/plataforma', 'PlataformaController@index');
+Route::get('/actividades/{id}', 'ActividadesController@show');
+Route::get('/cursos/{id}', 'CursosController@show');
+Route::get('/category/{id}', 'CategoryController@show');
+Route::get('/inscrito-actividad/{id}', 'InscritoActividadController@show');
+Route::get('/inscritos/{id}', 'InscritosController@show');
+Route::get('/plataforma/{id}', 'PlataformaController@show');

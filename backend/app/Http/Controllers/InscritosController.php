@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Http\Resources\Category as CategoryResource;
+use App\Inscritos;
+use App\Http\Resources\Inscritos as ResourceInscritos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class InscritosController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +16,8 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    return (CategoryResource::collection(Category::paginate()))->response();
+    return (ResourceInscritos::collection(Inscritos::paginate()))->response();
+    //
   }
 
   /**
@@ -38,33 +39,19 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma', 'courses.activities')->first();
+    $registered = Inscritos::where('idinscrito', $id)->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+    $registered->ultimoacceso = ReplaceChar::replaceStrangeCharacterString($registered->ultimoacceso);
 
-    $courses = ReplaceChar::replaceStrangeCharacterArray($category->courses);
-
-    foreach ($courses as $curso) {
-
-      $curso->activities = ReplaceChar::replaceStrangeCharacterArray($curso->activities);
-    }
+    $registered->nombre = ReplaceChar::replaceStrangeCharacterString($registered->nombre);
 
     return response()->json([
-      'data' => $category,
+      'data' => $registered,
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $id,
+        'href' => 'http://localhost:8000/api/inscritos/' . $id,
         'type' => 'GET'
       ]
     ], 200);
-  }
-
-  public function apiShow($id)
-  {
-    $category = Category::where('idcategory', $id)->with('plataforma')->first();
-
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
-
-    return $category;
   }
 
   /**

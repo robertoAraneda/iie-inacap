@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actividades;
-use Illuminate\Http\Request;
+use App\Cursos;
+use App\Http\Resources\Actividades as ResourceActividades;
 use App\ReplaceChar;
+use Illuminate\Http\Request;
 
 class ActividadesController extends Controller
 {
@@ -15,11 +17,7 @@ class ActividadesController extends Controller
    */
   public function index()
   {
-    $activities = Actividades::orderBy('idactividad')->get();
-
-    $activities = ReplaceChar::replaceStrangeCharacter($activities);
-
-    return response()->json(['data' => $activities], 200);
+    return (ResourceActividades::collection(Actividades::paginate()))->response();
   }
 
   /**
@@ -41,8 +39,38 @@ class ActividadesController extends Controller
    */
   public function show($id)
   {
-    //
+    $activity = Actividades::where('idactividad', $id)->first();
+
+    $cursoController = new CursosController();
+
+    if (isset($activity)) {
+      $activity->nombre = ReplaceChar::replaceStrangeCharacterString($activity->nombre);
+
+      $activity->idrcurso = $cursoController->apiShow($activity->idrcurso);
+
+      return response()->json([
+        'data' => $activity,
+        'links' => [
+          'href' => 'http://localhost:8000/api/actividades/' . $id,
+          'type' => 'GET'
+        ]
+      ], 200);
+    } else {
+      return response()->json([
+        'data' => null,
+        'error' => 'Recurso no encontrado'
+      ], 404);
+    }
   }
+
+  public function apiShow($id)
+  {
+    $activity = Actividades::where('idactividad', $id)->with('curso')->first();
+
+    $activity->nombre = ReplaceChar::replaceStrangeCharacterString($activity->nombre);
+  }
+
+
 
   /**
    * Update the specified resource in storage.

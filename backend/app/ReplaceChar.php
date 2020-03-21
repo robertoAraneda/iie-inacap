@@ -6,11 +6,12 @@ class ReplaceChar
 
 {
 
-  public static function replaceStrangeCharacter($array)
+  //remplaza los carácteres extraños por letras con tilde o simbolos
+  public static function replaceStrangeCharacterArray($array)
   {
 
-    $array_primary = ['ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿', 'ÃƒÂ©', 'ÃƒÂ±', 'ÃƒÂ', 'Ã‚Â°'];
-    $array_format = ['ó', 'á', '¿', 'é', 'ñ', 'í', '°'];
+    $array_primary = ['ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿', 'ÃƒÂ©', 'ÃƒÂ±', 'ÃƒÂ', 'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â', 'Ã¢Â€Â¦'];
+    $array_format = ['ó', 'á', '¿', 'é', 'ñ', 'í', '°', '"', '"', '...'];
 
     foreach ($array as $element) {
 
@@ -23,5 +24,14 @@ class ReplaceChar
     }
 
     return $array;
+  }
+
+  public static function replaceStrangeCharacterString($string)
+  {
+
+    $array_primary = ['ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿', 'ÃƒÂ©', 'ÃƒÂ±', 'ÃƒÂ', 'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â', 'Ã¢Â€Â¦'];
+    $array_format = ['ó', 'á', '¿', 'é', 'ñ', 'í', '°', '"', '"', '...'];
+
+    return str_replace($array_primary, $array_format, $string);
   }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Http\Resources\Category as CategoryResource;
+use App\Plataforma;
+use App\Http\Resources\Plataforma as ResourcePlataforma;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class PlataformaController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    return (CategoryResource::collection(Category::paginate()))->response();
+    return (ResourcePlataforma::collection(Plataforma::paginate()))->response();
   }
 
   /**
@@ -38,21 +38,23 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma', 'courses.activities')->first();
+    $platform = Plataforma::where('idplataforma', $id)->with('categories.courses.activities')->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+    $categorias = $platform->categories;
 
-    $courses = ReplaceChar::replaceStrangeCharacterArray($category->courses);
-
-    foreach ($courses as $curso) {
-
-      $curso->activities = ReplaceChar::replaceStrangeCharacterArray($curso->activities);
+    foreach ($categorias as $categoria) {
+      $cursos = $categoria->courses;
+      ReplaceChar::replaceStrangeCharacterArray($cursos);
+      foreach ($cursos as $curso) {
+        $actividades = $curso->activities;
+        ReplaceChar::replaceStrangeCharacterArray($actividades);
+      }
     }
 
     return response()->json([
-      'data' => $category,
+      'data' => $platform,
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $id,
+        'href' => 'http://localhost:8000/api/plataforma/' . $id,
         'type' => 'GET'
       ]
     ], 200);
@@ -60,11 +62,15 @@ class CategoryController extends Controller
 
   public function apiShow($id)
   {
-    $category = Category::where('idcategory', $id)->with('plataforma')->first();
+    $platform = Plataforma::where('idplataforma', $id)->first();
 
-    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
-
-    return $category;
+    return [
+      'data' => $platform,
+      'links' => [
+        'href' => 'http://localhost:8000/api/plataforma/' . $id,
+        'type' => 'GET'
+      ]
+    ];
   }
 
   /**
