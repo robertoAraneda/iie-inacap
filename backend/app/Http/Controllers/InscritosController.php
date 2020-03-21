@@ -46,10 +46,14 @@ class InscritosController extends Controller
 
     $registered->nombre = ReplaceChar::replaceStrangeCharacterString($registered->nombre);
 
+    ReplaceChar::replaceStrangeCharacterString($registered->curso->nombre);
+
+    ReplaceChar::replaceStrangeCharacterArray($registered->activities);
+
     return response()->json([
       'data' => $registered,
       'links' => [
-        'href' => URL::to('/inscritos/' . $id),
+        'href' => URL::to('/api/inscritos/' . $id),
         'type' => 'GET'
       ]
     ], 200);

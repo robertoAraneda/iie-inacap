@@ -39,18 +39,20 @@ class CursosController extends Controller
    */
   public function show($id)
   {
-    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
+    $course = Cursos::where('idrcurso', $id)->with('plataforma')->first();
 
-    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
+    ReplaceChar::replaceStrangeCharacterString($course->nombre);
 
-    $course->category->nombre = ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
+    ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
+
+    ReplaceChar::replaceStrangeCharacterArray($course->usersRegistered);
 
     ReplaceChar::replaceStrangeCharacterArray($course->activities);
 
     return response()->json([
       'data' => $course,
       'links' => [
-        'href' => URL::to('/cursos/' . $id),
+        'href' => URL::to('/api/cursos/' . $id),
         'type' => 'GET'
       ]
     ], 200);

@@ -21,7 +21,7 @@ class Inscritos extends JsonResource
     return [
       'idinscrito' => $this->idinscrito,
       'iduser' => $this->iduser,
-      'idrcurso' => $this->idrcurso,
+      'idrcurso' => $this->curso,
       'idperfil' => $this->idperfil,
       'perfil' => $this->perfil,
       'notas' => $this->notas,
@@ -31,6 +31,7 @@ class Inscritos extends JsonResource
       'email' => $this->email,
       'emailnotificacion' => $this->emailnotificacion,
       'activo' => $this->activo,
+      'activities' => Actividades::collection($this->activities),
 
       'links' => [
         'href' => URL::to('/api/inscritos/' . $this->idinscrito),

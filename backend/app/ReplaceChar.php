@@ -15,14 +15,14 @@ class ReplaceChar
       'ÃƒÂ©', 'ÃƒÂ±', 'ÃƒÂ',
       'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â',
       'Ã¢Â€Â¦', 'Ã‚Â«', 'Ã‚Â»',
-      'í‰', 'í¼'
+      'í‰', 'í¼', 'ÃƒÂ‘'
     ];
     $array_format = [
       'ó', 'á', '¿',
       'é', 'ñ', 'í',
       '°', '"', '"',
       '...', '«', '»',
-      'É', 'ü'
+      'É', 'ü', 'Ñ'
     ];
 
     foreach ($array as $element) {
@@ -33,6 +33,13 @@ class ReplaceChar
 
         $element->nombre = str_replace($array_primary, $array_format, $name);
       }
+
+      if (isset($element->ultimoacceso)) {
+
+        $lastaccess = $element->ultimoacceso;
+
+        $element->ultimoacceso = str_replace($array_primary, $array_format, $lastaccess);
+      }
     }
 
     return $array;
@@ -41,20 +48,22 @@ class ReplaceChar
   public static function replaceStrangeCharacterString($string)
   {
 
+
     $array_primary = [
       'ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿',
-      'ÃƒÂ©', 'ÃƒÂ±', 'ÃƒÂ',
+      'ÃƒÂ©', 'ÃƒÂ±',
       'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â',
       'Ã¢Â€Â¦', 'Ã‚Â«', 'Ã‚Â»',
-      'í‰', 'í¼'
+      'í‰', 'í¼', 'ÃƒÂ‘', 'ÃƒÂ'
     ];
     $array_format = [
       'ó', 'á', '¿',
-      'é', 'ñ', 'í',
+      'é', 'ñ',
       '°', '"', '"',
       '...', '«', '»',
-      'É', 'ü'
+      'É', 'ü', 'Ñ', 'í'
     ];
+
 
     return str_replace($array_primary, $array_format, $string);
   }

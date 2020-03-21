@@ -30,6 +30,7 @@ class Cursos extends JsonResource
       'idplataforma' => $this->plataforma,
       'timeultimocceso' => $this->timeultimocceso,
       'activities' => Actividades::collection($this->activities),
+      'usersregistered' => Inscritos::collection($this->usersRegistered),
       'links' => [
         'href' => URL::to('/api/cursos/' . $this->idrcurso),
         'type' => 'GET'

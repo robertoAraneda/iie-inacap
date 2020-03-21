@@ -14,12 +14,13 @@ class Category extends Model
 
   public $incrementing = false;
 
+  //relación de 1 category a 1 plataforma (1 es a 1)
   public function plataforma()
   {
     return $this->belongsTo(Plataforma::class, 'idplataforma');
   }
 
-  //una categoria tiene muchos cursos
+  //relación de 1 category con muchos cursos (1 es a muchos)
   public function courses()
   {
     return $this->hasMany(Cursos::class, 'idcategory', 'idcategory');

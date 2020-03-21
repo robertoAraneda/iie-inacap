@@ -14,9 +14,17 @@ class Actividades extends Model
 
   public $incrementing = false;
 
-  //se hace la relación de 1 actividad pertenece a 1 curso (singular)
+
+  //relación de 1 actividad es a 1 curso (1 es a 1)
   public function curso()
   {
     return $this->belongsTo(Cursos::class, 'idrcurso');
+  }
+
+  //relación de una actividad pertenece a muchos inscritos (muchos es a muchos)
+  public function usersRegistered()
+  {
+
+    return $this->belongsToMany(Inscritos::class, 'InscritoActividad', 'idacividad', 'idinscrito');
   }
 }

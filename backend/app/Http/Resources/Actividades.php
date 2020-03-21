@@ -31,6 +31,7 @@ class Actividades extends JsonResource
       'lastact' => $this->lastact,
       'revisar' => $this->revisar,
       'finish' => $this->finish,
+      'usersregistered' => Inscritos::collection($this->usersRegistered),
 
       'links' => [
         'href' => URL::to('/api/actividades/' . $this->idactividad),

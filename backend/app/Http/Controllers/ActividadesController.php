@@ -49,10 +49,12 @@ class ActividadesController extends Controller
 
       $activity->idrcurso = $cursoController->apiShow($activity->idrcurso);
 
+      ReplaceChar::replaceStrangeCharacterArray($activity->usersRegistered);
+
       return response()->json([
         'data' => $activity,
         'links' => [
-          'href' => URL::to('/actividades/' . $id),
+          'href' => URL::to('/api/actividades/' . $id),
           'type' => 'GET'
         ]
       ], 200);
