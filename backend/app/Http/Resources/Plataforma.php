@@ -28,7 +28,7 @@ class Plataforma extends JsonResource
       'categories' => Category::collection($this->categories),
 
       'links' => [
-        'href' => URL::to('/plataforma/' . $this->idplataforma),
+        'href' => URL::to('/api/plataforma/' . $this->idplataforma),
         'type' => 'GET'
       ]
     ];

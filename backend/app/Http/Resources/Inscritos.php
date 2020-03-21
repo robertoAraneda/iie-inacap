@@ -33,7 +33,7 @@ class Inscritos extends JsonResource
       'activo' => $this->activo,
 
       'links' => [
-        'href' => URL::to('/inscritos/' . $this->idinscrito),
+        'href' => URL::to('/api/inscritos/' . $this->idinscrito),
         'type' => 'GET'
       ]
     ];

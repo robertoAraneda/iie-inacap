@@ -31,7 +31,7 @@ class Category extends JsonResource
       'downloadlogs' => $this->downloadlogs,
       'courses' => ResourceCursos::collection($this->courses),
       'links' => [
-        'href' => URL::to('/category/' . $this->idcategory),
+        'href' => URL::to('/api/category/' . $this->idcategory),
         'type' => 'GET'
       ]
     ];

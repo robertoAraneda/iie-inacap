@@ -33,7 +33,7 @@ class Actividades extends JsonResource
       'finish' => $this->finish,
 
       'links' => [
-        'href' => URL::to('/actividades/' . $this->idactividad),
+        'href' => URL::to('/api/actividades/' . $this->idactividad),
         'type' => 'GET'
       ]
     ];

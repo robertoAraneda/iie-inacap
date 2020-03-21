@@ -31,7 +31,7 @@ class Cursos extends JsonResource
       'timeultimocceso' => $this->timeultimocceso,
       'activities' => Actividades::collection($this->activities),
       'links' => [
-        'href' => URL::to('/cursos/' . $this->idrcurso),
+        'href' => URL::to('/api/cursos/' . $this->idrcurso),
         'type' => 'GET'
       ]
     ];
