@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\ReplaceChar;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class Inscritos extends JsonResource
 {
@@ -32,7 +33,7 @@ class Inscritos extends JsonResource
       'activo' => $this->activo,
 
       'links' => [
-        'href' => 'http://localhost:8000/api/inscritos/' . $this->idinscrito,
+        'href' => URL::to('/inscritos/' . $this->idinscrito),
         'type' => 'GET'
       ]
     ];

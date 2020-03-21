@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\UrlGenerator;
 
 class Plataforma extends Model
 {
@@ -13,6 +14,7 @@ class Plataforma extends Model
   public $preserveKey = true;
 
   public $incrementing = false;
+
 
   public function categories()
   {

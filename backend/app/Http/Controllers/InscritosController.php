@@ -6,6 +6,7 @@ use App\Inscritos;
 use App\Http\Resources\Inscritos as ResourceInscritos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class InscritosController extends Controller
 {
@@ -48,7 +49,7 @@ class InscritosController extends Controller
     return response()->json([
       'data' => $registered,
       'links' => [
-        'href' => 'http://localhost:8000/api/inscritos/' . $id,
+        'href' => URL::to('/inscritos/' . $id),
         'type' => 'GET'
       ]
     ], 200);

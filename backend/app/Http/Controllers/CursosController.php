@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividades;
 use App\Cursos;
-use App\Http\Resources\Actividades as ResourceActividades;
 use App\Http\Resources\Cursos as ResourceCursos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class CursosController extends Controller
 {
@@ -50,7 +49,10 @@ class CursosController extends Controller
 
     return response()->json([
       'data' => $course,
-      'links' => ['href' => 'http://localhost:8000/api/cursos/' . $id, 'type' => 'GET']
+      'links' => [
+        'href' => URL::to('/cursos/' . $id),
+        'type' => 'GET'
+      ]
     ], 200);
   }
 

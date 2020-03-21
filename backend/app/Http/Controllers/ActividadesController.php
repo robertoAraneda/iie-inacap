@@ -7,6 +7,7 @@ use App\Cursos;
 use App\Http\Resources\Actividades as ResourceActividades;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ActividadesController extends Controller
 {
@@ -51,7 +52,7 @@ class ActividadesController extends Controller
       return response()->json([
         'data' => $activity,
         'links' => [
-          'href' => 'http://localhost:8000/api/actividades/' . $id,
+          'href' => URL::to('/actividades/' . $id),
           'type' => 'GET'
         ]
       ], 200);

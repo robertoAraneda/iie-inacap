@@ -33,7 +33,7 @@ class InscritoActividad extends JsonResource
       'timeultimocceso' => $this->timeultimocceso,
 
       'links' => [
-        'href' => 'http://localhost:8000/api/inscrito-actividad/' . $this->idinscritoactividad,
+        'href' => 'inscrito-actividad/' . $this->idinscritoactividad,
         'type' => 'GET'
 
       ]

@@ -7,7 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PlataformaController;
 use App\ReplaceChar;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\URL;
 
 class Cursos extends JsonResource
 {
@@ -31,7 +31,7 @@ class Cursos extends JsonResource
       'timeultimocceso' => $this->timeultimocceso,
       'activities' => Actividades::collection($this->activities),
       'links' => [
-        'href' => 'http://localhost:8000/api/cursos/' . $this->idrcurso,
+        'href' => URL::to('/cursos/' . $this->idrcurso),
         'type' => 'GET'
       ]
     ];

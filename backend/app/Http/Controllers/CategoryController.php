@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Resources\Category as CategoryResource;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class CategoryController extends Controller
 {
@@ -52,7 +53,7 @@ class CategoryController extends Controller
     return response()->json([
       'data' => $category,
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $id,
+        'href' => URL::to('/category/' . $id),
         'type' => 'GET'
       ]
     ], 200);

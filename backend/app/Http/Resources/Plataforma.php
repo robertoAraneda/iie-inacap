@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class Plataforma extends JsonResource
 {
@@ -27,7 +28,7 @@ class Plataforma extends JsonResource
       'categories' => Category::collection($this->categories),
 
       'links' => [
-        'href' => 'http://localhost:8000/api/plataforma/' . $this->idplataforma,
+        'href' => URL::to('/plataforma/' . $this->idplataforma),
         'type' => 'GET'
       ]
     ];
