@@ -13,4 +13,10 @@ class Actividades extends Model
   public $preserveKey = true;
 
   public $incrementing = false;
+
+  //se hace la relación de 1 actividad pertenece a 1 curso (singular)
+  public function curso()
+  {
+    return $this->belongsTo(Cursos::class, 'idrcurso');
+  }
 }

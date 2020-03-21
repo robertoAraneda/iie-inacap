@@ -38,9 +38,16 @@ class CategoryController extends Controller
    */
   public function show($id)
   {
-    $category = Category::where('idcategory', $id)->first();
+    $category = Category::where('idcategory', $id)->with('plataforma', 'courses.activities')->first();
 
     $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+
+    $courses = ReplaceChar::replaceStrangeCharacterArray($category->courses);
+
+    foreach ($courses as $curso) {
+
+      $curso->activities = ReplaceChar::replaceStrangeCharacterArray($curso->activities);
+    }
 
     return response()->json([
       'data' => $category,
@@ -49,6 +56,15 @@ class CategoryController extends Controller
         'type' => 'GET'
       ]
     ], 200);
+  }
+
+  public function apiShow($id)
+  {
+    $category = Category::where('idcategory', $id)->with('plataforma')->first();
+
+    $category->nombre = ReplaceChar::replaceStrangeCharacterString($category->nombre);
+
+    return $category;
   }
 
   /**

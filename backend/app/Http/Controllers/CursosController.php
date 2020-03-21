@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividades;
 use App\Cursos;
+use App\Http\Resources\Actividades as ResourceActividades;
 use App\Http\Resources\Cursos as ResourceCursos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
@@ -38,15 +40,32 @@ class CursosController extends Controller
    */
   public function show($id)
   {
-    $course = Cursos::where('idrcurso', $id)->first();
+    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
 
     $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
+
+    $course->category->nombre = ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
+
+    ReplaceChar::replaceStrangeCharacterArray($course->activities);
 
     return response()->json([
       'data' => $course,
       'links' => ['href' => 'http://localhost:8000/api/cursos/' . $id, 'type' => 'GET']
     ], 200);
   }
+
+  public function apiShow($id)
+  {
+    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
+
+    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
+
+    //ReplaceChar::replaceStrangeCharacterArray($course->activities);
+
+    return $course;
+  }
+
+
 
   /**
    * Update the specified resource in storage.

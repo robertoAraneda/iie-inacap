@@ -13,4 +13,9 @@ class Plataforma extends Model
   public $preserveKey = true;
 
   public $incrementing = false;
+
+  public function categories()
+  {
+    return $this->hasMany(Category::class, 'idplataforma', 'idplataforma');
+  }
 }

@@ -24,6 +24,7 @@ class Plataforma extends JsonResource
       'usr' => $this->usr,
       'pass' => $this->pass,
       'connectMoodle' => $this->connectMoodle,
+      'categories' => Category::collection($this->categories),
 
       'links' => [
         'href' => 'http://localhost:8000/api/plataforma/' . $this->idplataforma,

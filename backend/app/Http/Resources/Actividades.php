@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CursosController;
 use App\ReplaceChar;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,10 +19,12 @@ class Actividades extends JsonResource
   {
     // return parent::toArray($request);
 
+    $courseController = new CursosController();
+
     return [
       'idactividad' => $this->idactividad,
       'idmod' => $this->idmod,
-      'idrcurso' => $this->idrcurso,
+      'idrcurso' => $courseController->apiShow($this->idrcurso),
       'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
       'tipo' => $this->tipo,
       'lastact' => $this->lastact,

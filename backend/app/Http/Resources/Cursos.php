@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PlataformaController;
 use App\ReplaceChar;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,9 +26,10 @@ class Cursos extends JsonResource
       'activo' => $this->activo,
       'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
       'idcurso' => $this->idcurso,
-      'idcategory' => $this->idcategory,
-      'idplataforma' => $this->idplataforma,
+      'idcategory' => $this->category,
+      'idplataforma' => $this->plataforma,
       'timeultimocceso' => $this->timeultimocceso,
+      'activities' => Actividades::collection($this->activities),
       'links' => [
         'href' => 'http://localhost:8000/api/cursos/' . $this->idrcurso,
         'type' => 'GET'

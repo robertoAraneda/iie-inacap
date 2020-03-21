@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Plataforma;
 use App\Http\Resources\Plataforma as ResourcePlataforma;
+use App\ReplaceChar;
 use Illuminate\Http\Request;
 
 class PlataformaController extends Controller
@@ -37,7 +38,18 @@ class PlataformaController extends Controller
    */
   public function show($id)
   {
-    $platform = Plataforma::where('idplataforma', $id)->first();
+    $platform = Plataforma::where('idplataforma', $id)->with('categories.courses.activities')->first();
+
+    $categorias = $platform->categories;
+
+    foreach ($categorias as $categoria) {
+      $cursos = $categoria->courses;
+      ReplaceChar::replaceStrangeCharacterArray($cursos);
+      foreach ($cursos as $curso) {
+        $actividades = $curso->activities;
+        ReplaceChar::replaceStrangeCharacterArray($actividades);
+      }
+    }
 
     return response()->json([
       'data' => $platform,
@@ -46,6 +58,19 @@ class PlataformaController extends Controller
         'type' => 'GET'
       ]
     ], 200);
+  }
+
+  public function apiShow($id)
+  {
+    $platform = Plataforma::where('idplataforma', $id)->first();
+
+    return [
+      'data' => $platform,
+      'links' => [
+        'href' => 'http://localhost:8000/api/plataforma/' . $id,
+        'type' => 'GET'
+      ]
+    ];
   }
 
   /**
