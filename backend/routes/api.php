@@ -30,3 +30,6 @@ Route::get('/category/{id}', 'CategoryController@show');
 Route::get('/inscrito-actividad/{id}', 'InscritoActividadController@show');
 Route::get('/inscritos/{id}', 'InscritosController@show');
 Route::get('/plataforma/{id}', 'PlataformaController@show');
+Route::get('/collection/curso', 'CollectionsController@cursosCollection');
+Route::get('/collection/plataforma', 'CollectionsController@plataformaCollection');
+Route::get('/collection/course-detail/{id}', 'CollectionsController@courseDetail');

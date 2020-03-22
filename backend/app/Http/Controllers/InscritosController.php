@@ -48,7 +48,7 @@ class InscritosController extends Controller
 
     ReplaceChar::replaceStrangeCharacterString($registered->curso->nombre);
 
-    ReplaceChar::replaceStrangeCharacterArray($registered->activities);
+    // ReplaceChar::replaceStrangeCharacterArray($registered->activities);
 
     return response()->json([
       'data' => $registered,

@@ -49,7 +49,7 @@ class ActividadesController extends Controller
 
       $activity->idrcurso = $cursoController->apiShow($activity->idrcurso);
 
-      ReplaceChar::replaceStrangeCharacterArray($activity->usersRegistered);
+      //   ReplaceChar::replaceStrangeCharacterArray($activity->usersRegistered);
 
       return response()->json([
         'data' => $activity,

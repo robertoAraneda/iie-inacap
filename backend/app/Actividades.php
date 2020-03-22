@@ -25,6 +25,17 @@ class Actividades extends Model
   public function usersRegistered()
   {
 
-    return $this->belongsToMany(Inscritos::class, 'InscritoActividad', 'idacividad', 'idinscrito');
+    return $this->belongsToMany(Inscritos::class, 'InscritoActividad', 'idacividad', 'idinscrito')->withPivot(
+      'estado',
+      'calificacion',
+      'timemodified',
+      'ultact',
+      'finalizado',
+      'ultimarevisionlohg',
+      'timeestado',
+      'timefinalizado',
+      'timecalificacion',
+      'timeultimocceso'
+    );
   }
 }
