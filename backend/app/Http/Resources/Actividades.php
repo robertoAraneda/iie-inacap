@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Cursos;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CursosController;
 use App\ReplaceChar;
@@ -25,18 +26,15 @@ class Actividades extends JsonResource
     return [
       'idactividad' => $this->idactividad,
       'idmod' => $this->idmod,
-      'idrcurso' => $courseController->apiShow($this->idrcurso),
+      'idrcurso' => Cursos::where('idrcurso', $this->idrcurso)->first(),
       'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
       'tipo' => $this->tipo,
       'lastact' => $this->lastact,
       'revisar' => $this->revisar,
       'finish' => $this->finish,
-      'usersregistered' => Inscritos::collection($this->usersRegistered),
+      //'usersregistered' => Inscritos::collection($this->usersRegistered),
 
-      'links' => [
-        'href' => URL::to('/api/actividades/' . $this->idactividad),
-        'type' => 'GET'
-      ]
+
     ];
   }
 }

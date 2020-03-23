@@ -15,14 +15,33 @@ class CollectionsController extends Controller
     $courses = Cursos::orderBy('idrcurso')
       ->with('plataforma')
       ->with('category')
-      ->paginate(10);
+      ->get();
 
     return response()->json($courses, 200);
   }
 
   public function plataformaCollection()
   {
-    $platforms = Plataforma::with('categories.courses')->paginate(1);
+
+    $platforms = Plataforma::all()->map(function ($platform) {
+
+      $coursesFormat = [];
+
+      foreach (ReplaceChar::replaceStrangeCharacterArray($platform->categories) as $category) {
+
+        foreach (ReplaceChar::replaceStrangeCharacterArray($category->courses) as $course) {
+
+          if ($category->idplataforma == $course->idplataforma) {
+
+            $coursesFormat[] = $course;
+          }
+          $category['coursesFormat'] = $coursesFormat;
+        }
+        $coursesFormat = [];
+      }
+
+      return $platform;
+    });
 
     return response()->json($platforms, 200);
   }
