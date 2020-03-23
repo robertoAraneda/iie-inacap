@@ -35,3 +35,9 @@ Route::get('/collection/plataforma', 'CollectionsController@plataformaCollection
 Route::get('/collection/course-detail/{id}', 'CollectionsController@courseDetail');
 Route::get('/collection/actividades', 'CollectionsController@activitiesCollection');
 Route::get('/collection/inscritos', 'CollectionsController@registeredUsersCollection');
+Route::get('/collection/plataforma/active', 'CollectionsController@plataformaCollectionActive');
+Route::get('/collection/category/active', 'CollectionsController@categoryCollectionActive');
+
+
+
+Route::get('/collection/check/active', 'CollectionsController@registeredUserActive');

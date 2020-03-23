@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -118,6 +119,7 @@ class SynchronizeController extends Controller
 
     $courseRegisteredUsersMoodle = $response3->json();
 
+
     /**insertar inscritos y cursos */
     foreach ($courseRegisteredUsersMoodle as $courseRegisteredUserMoodle) {
       $registeredUserController = new RegisteredUserController();
@@ -149,11 +151,35 @@ class SynchronizeController extends Controller
           if (!isset($courseRegistereduserSearch)) {
             $courseRegisteredUserController->store($courseRegisteredUserMoodle);
           }
-
-          return  $courseRegistereduserSearch;
         }
       }
     }
-    return "inserción ok";
+
+    return 'OK';
+  }
+
+  public function syncronizeAppDaily()
+  {
+
+    $response = Http::get('http://localhost:8000/api/collection/category/active');
+
+    $categoriesActive = $response->json();
+
+    $array = [];
+
+    foreach ($categoriesActive as $category) {
+
+      $platformController = new PlatformController();
+
+      $categoryController = new CategoryController();
+
+      $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
+
+      $categorySearch = $categoryController->findByIdPlatformAndCategoryMoodle($category['idcategory'], $platformSearch->id);
+
+      $array[] = $categorySearch;
+    }
+
+    return $array;
   }
 }

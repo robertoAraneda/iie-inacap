@@ -29,7 +29,7 @@ class CourseRegisteredUserController extends Controller
 
     $courseRegisteredUser->course_id =  $courseRegisteredUserMoodle['curso']['idrcurso'];
     $courseRegisteredUser->registered_user_id = $courseRegisteredUserMoodle['iduser'];
-    $courseRegisteredUser->last_access_registered_moodle = $courseRegisteredUserMoodle['ultimoacceso'];
+    $courseRegisteredUser->last_access_registered_moodle = str_replace('-', '', $courseRegisteredUserMoodle['ultimoacceso']);
 
     $courseRegisteredUser->save();
   }
@@ -47,7 +47,7 @@ class CourseRegisteredUserController extends Controller
 
   public function findByIdCourseRegisteredUser($courseRegisteredUserMoodle)
   {
-    $courseRegisteredUser = CourseRegisteredUser::where('course_id', $courseRegisteredUserMoodle['curso']['idrcurso'])->where('registered_user_id', $courseRegisteredUserMoodle['userId'])->first();
+    $courseRegisteredUser = CourseRegisteredUser::where('course_id', $courseRegisteredUserMoodle['curso']['idrcurso'])->where('registered_user_id', $courseRegisteredUserMoodle['iduser'])->first();
 
     return $courseRegisteredUser;
   }

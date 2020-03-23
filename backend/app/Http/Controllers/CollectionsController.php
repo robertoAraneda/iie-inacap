@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividades as AppActividades;
+use App\Category;
 use App\Cursos;
 use App\Http\Resources\Actividades;
 use App\Inscritos;
@@ -18,10 +19,89 @@ class CollectionsController extends Controller
     $courses = Cursos::orderBy('idrcurso')
       ->with('plataforma')
       ->with('category')
-      ->get();
+      ->cursor()->filter(function ($curso) {
+
+        $curso->activities;
+
+        $curso->usersRegistered;
+
+        return $curso->category->active == 1;
+      });
 
     return response()->json($courses, 200);
   }
+
+  public function categoryCollectionActive()
+  {
+    $category = Category::where('active', 1)->with('plataforma')->get();
+
+    return $category;
+  }
+
+
+  public function courseCollectionActive()
+  {
+
+    $activeCategories = $this->categoryCollectionActive();
+
+    $arrayCourseActive = [];
+
+    //return $activeCategories;
+
+    foreach ($activeCategories as $activeCategory) {
+
+      $activeCourses = Cursos::where('idcategory', $activeCategory->idcategory)->get();
+
+      foreach ($activeCourses as $activeCourse) {
+        $arrayCourseActive[] = $activeCourse;
+      }
+    }
+
+    return $arrayCourseActive;
+  }
+
+  public function activitiesCollectionActive()
+  {
+
+    $activeCourses = $this->courseCollectionActive();
+
+    $arrayActiveActivities = [];
+
+    foreach ($activeCourses as $activeCourse) {
+
+      $activeActivities = AppActividades::where('idrcurso', $activeCourse['idrcurso'])->get();
+
+      foreach ($activeActivities as $activeActivity) {
+        $arrayActiveActivities[] = $activeActivity;
+      }
+    }
+
+    return $arrayActiveActivities;
+  }
+
+
+  public function registeredUserActive()
+  {
+    $activeCourses = $this->courseCollectionActive();
+
+    $arrayActiveRegisteredUsers = [];
+
+    foreach ($activeCourses as $activeCourse) {
+      $activeRegisteredUsers = Inscritos::where('idrcurso', $activeCourse['idrcurso'])->get();
+
+      foreach ($activeRegisteredUsers as $activeRegisteredUser) {
+        $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+      }
+    }
+
+    return $arrayActiveRegisteredUsers;
+  }
+
+
+
+
+
+
 
   public function plataformaCollection()
   {
