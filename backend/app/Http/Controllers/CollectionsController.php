@@ -71,7 +71,7 @@ class CollectionsController extends Controller
   public function registeredUsersCollection()
   {
 
-    $registeredUsers = Inscritos::paginate(10);
+    $registeredUsers = Inscritos::all();
 
     foreach ($registeredUsers as $registeredUser) {
       $registeredUser->ultimoacceso = ReplaceChar::replaceStrangeCharacterString($registeredUser->ultimoacceso);

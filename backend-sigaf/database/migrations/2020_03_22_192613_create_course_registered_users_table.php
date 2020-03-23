@@ -17,10 +17,11 @@ class CreateCourseRegisteredUsersTable extends Migration
       $table->bigIncrements('id');
       $table->unsignedBigInteger('course_id');
       $table->unsignedBigInteger('registered_user_id');
-      $table->unsignedBigInteger('profile_id');
-      $table->unsignedBigInteger('classroom_id');
-      $table->unsignedBigInteger('final_status_id');
-      $table->unsignedInteger('final_qualification');
+      $table->unsignedBigInteger('profile_id')->default(1);
+      $table->unsignedBigInteger('classroom_id')->default(1);
+      $table->unsignedBigInteger('final_status_id')->default(1);
+      $table->unsignedInteger('final_qualification')->default(1);
+      $table->unsignedInteger('final_qualification_moodle')->nullable();
       $table->string('last_access_registered_moodle', 255)->nullable();
       $table->timestamps();
     });

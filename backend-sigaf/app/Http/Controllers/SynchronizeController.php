@@ -10,114 +10,150 @@ class SynchronizeController extends Controller
 
   public function synchronizeApp()
   {
-    // $response = Http::get('http://127.0.0.1:8000/api/collection/plataforma');
+    $response = Http::get('http://127.0.0.1:8000/api/collection/plataforma');
 
-    // $platforms = $response->json();
+    $platforms = $response->json();
 
-    // $array = [];
+    $array = [];
 
-    // /**insertar plataformas */
-    // foreach ($platforms as $platform) {
+    /**insertar plataformas */
+    foreach ($platforms as $platform) {
 
-    //   $platformController = new PlatformController();
+      $platformController = new PlatformController();
 
-    //   $searchPlatform = $platformController->findByDescription($platform['nombre']);
+      $searchPlatform = $platformController->findByDescription($platform['nombre']);
 
-    //   if (!isset($searchPlatform)) {
-    //     $platformController->store($platform);
-    //   }
-    // }
+      if (!isset($searchPlatform)) {
+        $platformController->store($platform);
+      }
+    }
 
-    // /**insertar categorias */
-    // foreach ($platforms as $platform) {
+    /**insertar categorias */
+    foreach ($platforms as $platform) {
 
-    //   $platformController = new PlatformController();
+      $platformController = new PlatformController();
 
-    //   $platformResponse = $platformController->findByDescription($platform['nombre']);
+      $platformResponse = $platformController->findByDescription($platform['nombre']);
 
-    //   foreach ($platform['categories'] as $category) {
+      foreach ($platform['categories'] as $category) {
 
-    //     $categoryController = new CategoryController();
+        $categoryController = new CategoryController();
 
-    //     $categorySearch = $categoryController->findByIdCategoryMoodle($category['idcategory']);
+        $categorySearch = $categoryController->findByIdCategoryMoodle($category['idcategory']);
 
-    //     if (!isset($categorySearch)) {
+        if (!isset($categorySearch)) {
 
-    //       $category['idplataforma'] = $platformResponse->id;
+          $category['idplataforma'] = $platformResponse->id;
 
-    //       $categoryController->store($category);
-    //     } else {
-    //       if ($category['idplataforma'] == $platform['idplataforma']) {
+          $categoryController->store($category);
+        } else {
+          if ($category['idplataforma'] == $platform['idplataforma']) {
 
-    //         $category['idplataforma'] = $platformResponse->id;
+            $category['idplataforma'] = $platformResponse->id;
 
-    //         $categoryController->store($category);
-    //       }
-    //     }
-    //   }
-    // }
+            $categoryController->store($category);
+          }
+        }
+      }
+    }
 
-    // /**insertar coursos */
+    /**insertar coursos */
+    foreach ($platforms as $platform) {
 
-    // foreach ($platforms as $platform) {
+      $platformController = new PlatformController();
 
-    //   $platformController = new PlatformController();
+      $platformResponse = $platformController->findByDescription($platform['nombre']);
 
-    //   $platformResponse = $platformController->findByDescription($platform['nombre']);
+      foreach ($platform['categories'] as $category) {
 
-    //   foreach ($platform['categories'] as $category) {
+        $categoryController = new CategoryController();
 
-    //     $categoryController = new CategoryController();
+        $categorySearch = $categoryController->findByIdCategoryMoodle($category['idcategory']);
 
-    //     $categorySearch = $categoryController->findByIdCategoryMoodle($category['idcategory']);
+        foreach ($category['coursesFormat'] as $course) {
 
-    //     foreach ($category['coursesFormat'] as $course) {
+          $courseController = new CourseController();
 
-    //       $courseController = new CourseController();
+          $categoryResponse = $categoryController->findByIdPlatformAndCategoryMoodle($course['idcategory'], $platformResponse->id);
 
-    //       $categoryResponse = $categoryController->findByIdPlatformAndCategoryMoodle($course['idcategory'], $platformResponse->id);
+          $courseResponse = $courseController->findByIdCourseMoodle($course['idcurso']);
 
-    //       $courseResponse = $courseController->findByIdCourseMoodle($course['idcurso']);
+          if (($course['idcategory'] == $category['idcategory']) && ($course['idplataforma'] == $category['idplataforma'])) {
 
-    //       if (($course['idcategory'] == $category['idcategory']) && ($course['idplataforma'] == $category['idplataforma'])) {
+            if (!isset($courseResponse)) {
 
-    //         if (!isset($courseResponse)) {
+              $course['idcategory'] = $categoryResponse->id;
 
-    //           $course['idcategory'] = $categoryResponse->id;
+              $courseController->store($course);
+            }
+          }
 
-    //           $courseController->store($course);
-    //         }
-    //       }
+          $array[] = $course;
+        }
+      }
+    }
 
-    //       $array[] = $course;
-    //     }
-    //   }
-    // }
+    $response2 = Http::get('http://127.0.0.1:8000/api/collection/actividades');
 
-    // $response2 = Http::get('http://127.0.0.1:8000/api/collection/actividades');
+    $activities = $response2->json();
 
-    // $activities = $response2->json();
+    /**insertar actividades */
+    foreach ($activities as $activity) {
 
-    // foreach ($activities as $activity) {
+      $courseController = new CourseController();
+      $activityController = new ActivityController();
 
-    //   $courseController = new CourseController();
-    //   $activityController = new ActivityController();
+      $course = $courseController->findByIdCourseMoodle($activity['curso']['idcurso']);
 
-    //   $course = $courseController->findByIdCourseMoodle($activity['curso']['idcurso']);
+      $activitySearch = $activityController->findByIdActivityMoodle($activity['idmod']);
 
-    //   $activitySearch = $activityController->findByIdActivityMoodle($activity['idmod']);
+      if (!isset($activitySearch)) {
+        $activity['idrcurso'] = $course->id;
 
-    //   if (!isset($activitySearch)) {
-    //     $activity['idrcurso'] = $course->id;
-
-    //     $activityController->store($activity);
-    //   }
-    // }
+        $activityController->store($activity);
+      }
+    }
 
     $response3 = Http::get('http://127.0.0.1:8000/api/collection/inscritos');
 
-    $registeredUsers = $response3->json();
+    $courseRegisteredUsersMoodle = $response3->json();
 
-    return $registeredUsers;
+    /**insertar inscritos y cursos */
+    foreach ($courseRegisteredUsersMoodle as $courseRegisteredUserMoodle) {
+      $registeredUserController = new RegisteredUserController();
+
+      $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($courseRegisteredUserMoodle['iduser']);
+
+
+      if (!isset($registeredUserSearch)) {
+
+        $registeredUserSearch = $registeredUserController->store($courseRegisteredUserMoodle);
+      }
+
+      if (isset($registeredUserSearch)) {
+
+        $courseController = new CourseController();
+
+        $courseSearch = $courseController->findByIdCourseMoodle($courseRegisteredUserMoodle['curso']['idcurso']);
+
+        if (isset($courseSearch)) {
+
+          $courseRegisteredUserMoodle['curso']['idrcurso'] = $courseSearch->id;
+          $courseRegisteredUserMoodle['iduser'] = $registeredUserSearch->id;
+
+
+          $courseRegisteredUserController = new CourseRegisteredUserController();
+
+          $courseRegistereduserSearch = $courseRegisteredUserController->findByIdCourseRegisteredUser($courseRegisteredUserMoodle);
+
+          if (!isset($courseRegistereduserSearch)) {
+            $courseRegisteredUserController->store($courseRegisteredUserMoodle);
+          }
+
+          return  $courseRegistereduserSearch;
+        }
+      }
+    }
+    return "inserción ok";
   }
 }
