@@ -26,7 +26,7 @@ class Actividades extends JsonResource
     return [
       'idactividad' => $this->idactividad,
       'idmod' => $this->idmod,
-      'idrcurso' => Cursos::where('idrcurso', $this->idrcurso)->first(),
+      'idrcurso' => $this->curso,
       'nombre' => ReplaceChar::replaceStrangeCharacterString($this->nombre),
       'tipo' => $this->tipo,
       'lastact' => $this->lastact,

@@ -18,7 +18,7 @@ class ActividadesController extends Controller
    */
   public function index()
   {
-    return (ResourceActividades::collection(Actividades::paginate()))->response();
+    return (ResourceActividades::collection(Actividades::all()))->response();
   }
 
   /**
