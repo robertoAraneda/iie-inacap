@@ -7,6 +7,7 @@ use App\Cursos;
 use App\Http\Resources\Actividades as ResourceActividades;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ActividadesController extends Controller
 {
@@ -17,7 +18,7 @@ class ActividadesController extends Controller
    */
   public function index()
   {
-    return (ResourceActividades::collection(Actividades::paginate()))->response();
+    return (ResourceActividades::collection(Actividades::all()))->response();
   }
 
   /**
@@ -48,10 +49,12 @@ class ActividadesController extends Controller
 
       $activity->idrcurso = $cursoController->apiShow($activity->idrcurso);
 
+      //   ReplaceChar::replaceStrangeCharacterArray($activity->usersRegistered);
+
       return response()->json([
         'data' => $activity,
         'links' => [
-          'href' => 'http://localhost:8000/api/actividades/' . $id,
+          'href' => URL::to('/api/actividades/' . $id),
           'type' => 'GET'
         ]
       ], 200);

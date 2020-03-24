@@ -6,6 +6,7 @@ use App\Plataforma;
 use App\Http\Resources\Plataforma as ResourcePlataforma;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class PlataformaController extends Controller
 {
@@ -54,7 +55,7 @@ class PlataformaController extends Controller
     return response()->json([
       'data' => $platform,
       'links' => [
-        'href' => 'http://localhost:8000/api/plataforma/' . $id,
+        'href' => URL::to('/plataforma/' . $id),
         'type' => 'GET'
       ]
     ], 200);
@@ -64,13 +65,7 @@ class PlataformaController extends Controller
   {
     $platform = Plataforma::where('idplataforma', $id)->first();
 
-    return [
-      'data' => $platform,
-      'links' => [
-        'href' => 'http://localhost:8000/api/plataforma/' . $id,
-        'type' => 'GET'
-      ]
-    ];
+    return $platform;
   }
 
   /**

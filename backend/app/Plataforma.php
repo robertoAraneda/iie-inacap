@@ -14,6 +14,7 @@ class Plataforma extends Model
 
   public $incrementing = false;
 
+  //relación de 1 plataforma con muchas categories (1 es a) 
   public function categories()
   {
     return $this->hasMany(Category::class, 'idplataforma', 'idplataforma');

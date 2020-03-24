@@ -6,6 +6,7 @@ use App\InscritoActividad;
 use App\Http\Resources\InscritoActividad as ResourceInscritoActividad;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class InscritoActividadController extends Controller
 {
@@ -51,7 +52,7 @@ class InscritoActividadController extends Controller
     return response()->json([
       'data' => $registeredActivity,
       'links' => [
-        'href' => 'http://localhost:8000/api/inscrito-actividad/' . $id,
+        'href' => URL::to('/inscritoactividad/' . $id),
         'type' => 'GET'
       ]
     ], 200);

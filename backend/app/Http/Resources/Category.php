@@ -7,6 +7,7 @@ use App\ReplaceChar;
 use App\Http\Resources\Cursos as ResourceCursos;
 use App\Plataforma;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class Category extends JsonResource
 {
@@ -30,7 +31,7 @@ class Category extends JsonResource
       'downloadlogs' => $this->downloadlogs,
       'courses' => ResourceCursos::collection($this->courses),
       'links' => [
-        'href' => 'http://localhost:8000/api/category/' . $this->idcategory,
+        'href' => URL::to('/api/category/' . $this->idcategory),
         'type' => 'GET'
       ]
     ];

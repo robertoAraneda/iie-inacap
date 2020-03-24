@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividades;
 use App\Cursos;
-use App\Http\Resources\Actividades as ResourceActividades;
 use App\Http\Resources\Cursos as ResourceCursos;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class CursosController extends Controller
 {
@@ -18,7 +17,7 @@ class CursosController extends Controller
    */
   public function index()
   {
-    return (ResourceCursos::collection(Cursos::paginate()))->response();
+    return (ResourceCursos::collection(Cursos::all()))->response();
   }
 
   /**
@@ -40,17 +39,22 @@ class CursosController extends Controller
    */
   public function show($id)
   {
-    $course = Cursos::where('idrcurso', $id)->with('category', 'plataforma')->first();
+    $course = Cursos::where('idrcurso', $id)->with('plataforma')->first();
 
-    $course->nombre = ReplaceChar::replaceStrangeCharacterString($course->nombre);
+    ReplaceChar::replaceStrangeCharacterString($course->nombre);
 
-    $course->category->nombre = ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
+    ReplaceChar::replaceStrangeCharacterString($course->category->nombre);
+
+    ReplaceChar::replaceStrangeCharacterArray($course->usersRegistered);
 
     ReplaceChar::replaceStrangeCharacterArray($course->activities);
 
     return response()->json([
       'data' => $course,
-      'links' => ['href' => 'http://localhost:8000/api/cursos/' . $id, 'type' => 'GET']
+      'links' => [
+        'href' => URL::to('/api/cursos/' . $id),
+        'type' => 'GET'
+      ]
     ], 200);
   }
 
