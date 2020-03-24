@@ -310,8 +310,6 @@ class SynchronizeController extends Controller
 
     foreach ($registeredUserActivities as $registeredUserActivity) {
 
-      return $registeredUserActivity;
-
       $courseRegistereduserController = new CourseRegisteredUserController();
       $activityController = new ActivityController();
       $courseController = new CourseController();

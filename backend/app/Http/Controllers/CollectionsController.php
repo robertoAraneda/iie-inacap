@@ -105,25 +105,23 @@ class CollectionsController extends Controller
   public function activityCourseRegisteredUserActive()
   {
 
-    $courseRegisteredUsers = $this->registeredUserActive();
+    $activeCourses = $this->courseCollectionActive();
 
-    $arrayActiveActivities = [];
+    foreach ($activeCourses as $activeCourse) {
 
+      foreach (Inscritos::where('idrcurso', $activeCourse['idrcurso'])
+        ->with('curso')
+        ->cursor() as $activeRegisteredUser) {
 
-    foreach ($courseRegisteredUsers as $courseRegisteredUser) {
+        foreach (AppActividades::where('idrcurso', $activeRegisteredUser['curso']['idrcurso'])->cursor() as $activitiy) {
 
+          $userRegisterActivities = InscritoActividad::where('idinscrito', $activeRegisteredUser['idinscrito'])->where('idacividad', $activitiy['idactividad'])->with('userRegistered.curso', 'activity')->get();
 
-      $activitiesSearch =  AppActividades::where('idrcurso', $courseRegisteredUser['curso']['idrcurso'])->get();
-
-
-      foreach ($activitiesSearch as $activitiy) {
-
-        $userRegisterActivities = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->where('idacividad', $activitiy['idactividad'])->with('userRegistered.curso', 'activity')->get();
-
-        $arrayActiveActivities[] = $userRegisterActivities;
+          $arrayActiveActivities[] = $userRegisterActivities;
+        }
+        return $arrayActiveActivities;
       }
     }
-    return $arrayActiveActivities;
   }
 
 
