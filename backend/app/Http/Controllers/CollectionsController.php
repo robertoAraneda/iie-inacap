@@ -118,7 +118,7 @@ class CollectionsController extends Controller
 
       foreach ($activitiesSearch as $activitiy) {
 
-        $userRegisterActivities = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->where('idacividad', $activitiy['idactividad'])->get();
+        $userRegisterActivities = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->where('idacividad', $activitiy['idactividad'])->with('userRegistered.curso', 'activity')->get();
 
         $arrayActiveActivities[] = $userRegisterActivities;
       }

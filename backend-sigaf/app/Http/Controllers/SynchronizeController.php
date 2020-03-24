@@ -304,11 +304,13 @@ class SynchronizeController extends Controller
 
     $base_url = 'http://ayuda2-emineduc.iie.cl/iie-inacap/backend/public/';
 
-    $response5 = Http::get($base_url . "api/collection/check?page=1");
+    $response5 = Http::get($base_url . "api/collection/inscrito-actividad/active");
 
     $registeredUserActivities = $response5->json();
 
     foreach ($registeredUserActivities as $registeredUserActivity) {
+
+      return $registeredUserActivity;
 
       $courseRegistereduserController = new CourseRegisteredUserController();
       $activityController = new ActivityController();
@@ -318,6 +320,7 @@ class SynchronizeController extends Controller
 
       $courseSearch = $courseController->findByIdCourseMoodle($registeredUserActivity['user_registered']['curso']['idcurso']);
       $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($registeredUserActivity['user_registered']['iduser']);
+
 
       $activitySearch = $activityController->findByIdActivityMoodle($registeredUserActivity['activity']['idmod']);
 
