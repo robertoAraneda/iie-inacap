@@ -53,7 +53,6 @@ class SynchronizeController extends Controller
 
           if (($category['idplataforma'] == $platform['idplataforma']) && (!isset($categoryAndPlatform))) {
 
-
             $category['idplataforma'] = $platformResponse->id;
 
             $categoryController->store($category);
@@ -177,18 +176,19 @@ class SynchronizeController extends Controller
 
       $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
 
-
-
       if (!isset($platformSearch)) {
-        $platformController->store($platformSearch);
+        $platformController->store($category['plataforma']);
       }
+
+      $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
 
       $categorySearch = $categoryController->findByIdPlatformAndCategoryMoodle($category['idcategory'], $platformSearch->id);
 
-      return $categorySearch;
-
       if (!isset($categorySearch)) {
-        $categoryController->store($categorySearch);
+
+        $category['idplataforma']  = $platformSearch->id;
+
+        $categoryController->store($category);
       }
     }
 
