@@ -33,7 +33,7 @@ class CollectionsController extends Controller
 
   public function categoryCollectionActive()
   {
-    $category = Category::where('active', 1)->with('plataforma')->get();
+    $category = ReplaceChar::replaceStrangeCharacterArray(Category::where('active', 1)->with('plataforma')->get());
 
     return $category;
   }
@@ -50,7 +50,7 @@ class CollectionsController extends Controller
 
     foreach ($activeCategories as $activeCategory) {
 
-      $activeCourses = Cursos::where('idcategory', $activeCategory->idcategory)->get();
+      $activeCourses = ReplaceChar::replaceStrangeCharacterArray(Cursos::where('idcategory', $activeCategory->idcategory)->get());
 
       foreach ($activeCourses as $activeCourse) {
         $arrayCourseActive[] = $activeCourse;
@@ -69,7 +69,7 @@ class CollectionsController extends Controller
 
     foreach ($activeCourses as $activeCourse) {
 
-      $activeActivities = AppActividades::where('idrcurso', $activeCourse['idrcurso'])->get();
+      $activeActivities = ReplaceChar::replaceStrangeCharacterArray(AppActividades::where('idrcurso', $activeCourse['idrcurso'])->get());
 
       foreach ($activeActivities as $activeActivity) {
         $arrayActiveActivities[] = $activeActivity;
@@ -87,7 +87,7 @@ class CollectionsController extends Controller
     $arrayActiveRegisteredUsers = [];
 
     foreach ($activeCourses as $activeCourse) {
-      $activeRegisteredUsers = Inscritos::where('idrcurso', $activeCourse['idrcurso'])->get();
+      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])->get());
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
         $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
@@ -96,11 +96,6 @@ class CollectionsController extends Controller
 
     return $arrayActiveRegisteredUsers;
   }
-
-
-
-
-
 
 
   public function plataformaCollection()
