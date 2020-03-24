@@ -28,13 +28,13 @@ class ActivityCourseRegisteredUserController extends Controller
     $activityCourseRegisteredUser = new ActivityCourseRegisteredUser();
 
     $activityCourseRegisteredUser->activity_id = $activityCourseRegisteredUserMoodle['idacividad'];
-
     $activityCourseRegisteredUser->course_registered_user_id = $activityCourseRegisteredUserMoodle['idinscrito'];
-
     $activityCourseRegisteredUser->qualification_moodle = $activityCourseRegisteredUserMoodle['calificacion'];
     $activityCourseRegisteredUser->status_moodle = $activityCourseRegisteredUserMoodle['estado'];
 
     $activityCourseRegisteredUser->save();
+
+    return $activityCourseRegisteredUser->fresh();
   }
 
   /**
@@ -48,6 +48,13 @@ class ActivityCourseRegisteredUserController extends Controller
     //
   }
 
+  public function findByIdActivityCourseRegisteredUser($idActivity, $idcourseRegisteredUser)
+  {
+    $activityCourseRegisteredUserMoodle = ActivityCourseRegisteredUser::where('activity_id', $idActivity)
+      ->where('course_registered_user_id', $idcourseRegisteredUser)->first();;
+
+    return $activityCourseRegisteredUserMoodle;
+  }
   /**
    * Update the specified resource in storage.
    *

@@ -167,7 +167,7 @@ class CollectionsController extends Controller
   public function registeredUserActivity()
   {
 
-    $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(1000);
+    $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(10000);
 
     return $registeredUserActivity;
   }
