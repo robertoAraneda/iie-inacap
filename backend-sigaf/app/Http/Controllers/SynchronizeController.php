@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Http;
 class SynchronizeController extends Controller
 {
 
+
+
   public function synchronizeApp()
   {
-    // $response = Http::get('http://127.0.0.1:8000/api/collection/plataforma');
+    $base_url = 'http://ayuda2-emineduc.iie.cl/iie-inacap/backend/public/';
+
+    // $response = Http::get($base_url . "api/collection/plataforma");
 
     // $platforms = $response->json();
 
@@ -98,7 +102,7 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    // $response2 = Http::get('http://127.0.0.1:8000/api/collection/actividades');
+    // $response2 = Http::get($base_url . "api/collection/actividades");
 
     // $activities = $response2->json();
 
@@ -119,7 +123,7 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    // $response3 = Http::get('http://127.0.0.1:8000/api/collection/inscritos');
+    // $response3 = Http::get($base_url . "api/collection/inscritos");
 
     // $courseRegisteredUsersMoodle = $response3->json();
 
@@ -160,7 +164,7 @@ class SynchronizeController extends Controller
     // }
 
 
-    $response5 = Http::get('http://localhost:8000/api/collection/check?page=1');
+    $response5 = Http::get($base_url . "api/collection/check?page=1");
 
     $registeredUserActivities = $response5->json()['data'];
 
@@ -199,102 +203,139 @@ class SynchronizeController extends Controller
   public function syncronizeAppDaily()
   {
 
-    $response = Http::get('http://localhost:8000/api/collection/categorias/active');
+    // $response = Http::get('http://localhost:8000/api/collection/categorias/active');
 
-    $categoriesActive = $response->json();
+    // $categoriesActive = $response->json();
 
-    foreach ($categoriesActive as $category) {
+    // foreach ($categoriesActive as $category) {
 
-      $platformController = new PlatformController();
+    //   $platformController = new PlatformController();
 
-      $categoryController = new CategoryController();
+    //   $categoryController = new CategoryController();
 
-      $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
+    //   $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
 
-      if (!isset($platformSearch)) {
-        $platformController->store($category['plataforma']);
-      }
+    //   if (!isset($platformSearch)) {
+    //     $platformController->store($category['plataforma']);
+    //   }
 
-      $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
+    //   $platformSearch = $platformController->findByDescription($category['plataforma']['nombre']);
 
-      $categorySearch = $categoryController->findByIdPlatformAndCategoryMoodle($category['idcategory'], $platformSearch->id);
+    //   $categorySearch = $categoryController->findByIdPlatformAndCategoryMoodle($category['idcategory'], $platformSearch->id);
 
-      if (!isset($categorySearch)) {
+    //   if (!isset($categorySearch)) {
 
-        $category['idplataforma']  = $platformSearch->id;
+    //     $category['idplataforma']  = $platformSearch->id;
 
-        $categoryController->store($category);
-      }
-    }
+    //     $categoryController->store($category);
+    //   }
+    // }
 
-    $response2 = Http::get('http://localhost:8000/api/collection/cursos/active');
+    // $response2 = Http::get('http://localhost:8000/api/collection/cursos/active');
 
-    $activeCourses = $response2->json();
+    // $activeCourses = $response2->json();
 
 
-    foreach ($activeCourses as $activeCourse) {
+    // foreach ($activeCourses as $activeCourse) {
 
-      $courseController = new CourseController();
-      $categoryController = new CategoryController();
+    //   $courseController = new CourseController();
+    //   $categoryController = new CategoryController();
 
-      $categorySearch = $categoryController->findByIdCategoryMoodle($activeCourse['idcategory']);
+    //   $categorySearch = $categoryController->findByIdCategoryMoodle($activeCourse['idcategory']);
 
-      $activeCourseSearch = $courseController->findByIdCourseMoodle($activeCourse['idcurso']);
+    //   $activeCourseSearch = $courseController->findByIdCourseMoodle($activeCourse['idcurso']);
 
-      if (!isset($activeCourseSearch)) {
-        $activeCourse['idcategory'] = $categorySearch->id;
+    //   if (!isset($activeCourseSearch)) {
+    //     $activeCourse['idcategory'] = $categorySearch->id;
 
-        $courseController->store($activeCourse);
-      }
-    }
+    //     $courseController->store($activeCourse);
+    //   }
+    // }
 
-    $response3 = Http::get('http://localhost:8000/api/collection/actividades/active');
+    // $response3 = Http::get('http://localhost:8000/api/collection/actividades/active');
 
-    $activeActivities = $response3->json();
+    // $activeActivities = $response3->json();
 
-    foreach ($activeActivities as $activeActivity) {
-      $courseController = new CourseController();
+    // foreach ($activeActivities as $activeActivity) {
+    //   $courseController = new CourseController();
+    //   $activityController = new ActivityController();
+
+    //   $courseSearch = $courseController->findByIdCourseMoodle($activeActivity['curso']['idcurso']);
+
+    //   $activeActivitySearch = $activityController->findByIdActivityMoodle($activeActivity['idmod']);
+
+    //   if (!isset($activeActivitySearch)) {
+
+    //     $activeActivity['idrcurso'] = $courseSearch->id;
+
+    //     $activityController->store($activeActivity);
+    //   }
+    // }
+
+    // $response4 = Http::get('http://localhost:8000/api/collection/inscritos/active');
+
+    // $activeRegisteredUsers = $response4->json();
+
+    // foreach ($activeRegisteredUsers as $activeRegisteredUser) {
+    //   $registeredUserController = new RegisteredUserController();
+    //   $courseController = new CourseController();
+    //   $courseRegisteredUserController = new CourseRegisteredUserController();
+
+
+    //   $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($activeRegisteredUser['iduser']);
+
+    //   if (!isset($registeredUserSearch)) {
+
+    //     $registeredUserSearch = $registeredUserController->store($activeRegisteredUser);
+    //   }
+
+    //   $courseSearch = $courseController->findByIdCourseMoodle($activeRegisteredUser['curso']['idcurso']);
+
+    //   $activeRegisteredUser['curso']['idrcurso'] = $courseSearch->id;
+    //   $activeRegisteredUser['iduser'] =  $registeredUserSearch->id;
+
+    //   $courseRegisteredUserSearch = $courseRegisteredUserController->findByIdCourseRegisteredUser($activeRegisteredUser);
+
+    //   if (!isset($courseRegisteredUserSearch)) {
+
+    //     $courseRegisteredUserController->store($activeRegisteredUser);
+    //   }
+    // }
+
+    $base_url = 'http://ayuda2-emineduc.iie.cl/iie-inacap/backend/public/';
+
+    $response5 = Http::get($base_url . "api/collection/check?page=1");
+
+    $registeredUserActivities = $response5->json();
+
+    foreach ($registeredUserActivities as $registeredUserActivity) {
+
+      $courseRegistereduserController = new CourseRegisteredUserController();
       $activityController = new ActivityController();
-
-      $courseSearch = $courseController->findByIdCourseMoodle($activeActivity['curso']['idcurso']);
-
-      $activeActivitySearch = $activityController->findByIdActivityMoodle($activeActivity['idmod']);
-
-      if (!isset($activeActivitySearch)) {
-
-        $activeActivity['idrcurso'] = $courseSearch->id;
-
-        $activityController->store($activeActivity);
-      }
-    }
-
-    $response4 = Http::get('http://localhost:8000/api/collection/inscritos/active');
-
-    $activeRegisteredUsers = $response4->json();
-
-    foreach ($activeRegisteredUsers as $activeRegisteredUser) {
-      $registeredUserController = new RegisteredUserController();
       $courseController = new CourseController();
-      $courseRegisteredUserController = new CourseRegisteredUserController();
+      $registeredUserController = new RegisteredUserController();
+      $activityCourseRegisteredUserController = new ActivityCourseRegisteredUserController();
 
+      $courseSearch = $courseController->findByIdCourseMoodle($registeredUserActivity['user_registered']['curso']['idcurso']);
+      $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($registeredUserActivity['user_registered']['iduser']);
 
-      $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($activeRegisteredUser['iduser']);
+      $activitySearch = $activityController->findByIdActivityMoodle($registeredUserActivity['activity']['idmod']);
 
-      if (!isset($registeredUserSearch)) {
+      $registeredUserActivityFormat['curso']['idrcurso'] = $courseSearch->id;
+      $registeredUserActivityFormat['iduser'] = $registeredUserSearch->id;
 
-        $registeredUserSearch = $registeredUserController->store($activeRegisteredUser);
-      }
+      $courseRegisteredUserSearch = $courseRegistereduserController->findByIdCourseRegisteredUser($registeredUserActivityFormat);
 
-      $courseSearch = $courseController->findByIdCourseMoodle($activeRegisteredUser['curso']['idcurso']);
+      if (isset($courseSearch) && isset($registeredUserSearch) && isset($courseRegisteredUserSearch) && isset($activitySearch)) {
 
-      $activeRegisteredUser['curso']['idrcurso'] = $courseSearch->id;
-      $activeRegisteredUser['iduser'] =  $registeredUserSearch->id;
+        $activityCourseRegisteredUserSearch = $activityCourseRegisteredUserController->findByIdActivityCourseRegisteredUser($activitySearch->id, $courseRegisteredUserSearch->id);
 
-      $courseRegisteredUserSearch = $courseRegisteredUserController->findByIdCourseRegisteredUser($activeRegisteredUser);
+        if (!isset($activityCourseRegisteredUserSearch)) {
+          $registeredUserActivity['idinscrito'] = $courseRegisteredUserSearch->id;
+          $registeredUserActivity['idacividad'] = $activitySearch->id;
 
-      if (!isset($courseRegisteredUserSearch)) {
-
-        $courseRegisteredUserController->store($activeRegisteredUser);
+          $response = $activityCourseRegisteredUserController->store($registeredUserActivity);
+        }
       }
     }
 

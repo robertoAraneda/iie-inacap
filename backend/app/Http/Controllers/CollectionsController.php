@@ -102,6 +102,31 @@ class CollectionsController extends Controller
     return $arrayActiveRegisteredUsers;
   }
 
+  public function activityCourseRegisteredUserActive()
+  {
+
+    $courseRegisteredUsers = $this->registeredUserActive();
+
+    $arrayActiveActivities = [];
+
+
+    foreach ($courseRegisteredUsers as $courseRegisteredUser) {
+
+
+      $activitiesSearch =  AppActividades::where('idrcurso', $courseRegisteredUser['curso']['idrcurso'])->get();
+
+
+      foreach ($activitiesSearch as $activitiy) {
+
+        $userRegisterActivities = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->where('idacividad', $activitiy['idactividad'])->get();
+
+        $arrayActiveActivities[] = $userRegisterActivities;
+      }
+    }
+    return $arrayActiveActivities;
+  }
+
+
 
   public function plataformaCollection()
   {
