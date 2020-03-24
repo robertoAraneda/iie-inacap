@@ -6,6 +6,7 @@ use App\Actividades as AppActividades;
 use App\Category;
 use App\Cursos;
 use App\Http\Resources\Actividades;
+use App\InscritoActividad;
 use App\Inscritos;
 use App\Plataforma;
 use App\ReplaceChar;
@@ -69,7 +70,9 @@ class CollectionsController extends Controller
 
     foreach ($activeCourses as $activeCourse) {
 
-      $activeActivities = ReplaceChar::replaceStrangeCharacterArray(AppActividades::where('idrcurso', $activeCourse['idrcurso'])->get());
+      $activeActivities = ReplaceChar::replaceStrangeCharacterArray(AppActividades::where('idrcurso', $activeCourse['idrcurso'])
+        ->with('curso')
+        ->get());
 
       foreach ($activeActivities as $activeActivity) {
         $arrayActiveActivities[] = $activeActivity;
@@ -87,7 +90,9 @@ class CollectionsController extends Controller
     $arrayActiveRegisteredUsers = [];
 
     foreach ($activeCourses as $activeCourse) {
-      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])->get());
+      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])
+        ->with('curso')
+        ->get());
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
         $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
@@ -157,5 +162,13 @@ class CollectionsController extends Controller
     }
 
     return response()->json($registeredUsers, 200);
+  }
+
+  public function registeredUserActivity()
+  {
+
+    $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(1000);
+
+    return $registeredUserActivity;
   }
 }

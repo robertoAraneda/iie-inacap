@@ -46,3 +46,6 @@ Route::get('/collection/cursos/active', 'CollectionsController@courseCollectionA
 Route::get('/collection/actividades/active', 'CollectionsController@activitiesCollectionActive');
 
 Route::get('/collection/inscritos/active', 'CollectionsController@registeredUserActive');
+
+
+Route::get('/collection/check', 'CollectionsController@registeredUserActivity');
