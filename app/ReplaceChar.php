@@ -46,6 +46,35 @@ class ReplaceChar
   }
 
 
+  public static function replaceVocalUpperCaseString($string)
+  {
+    $arrayStrageCharacter = ['í', 'í‰', 'í', 'í“', 'íš', 'ÃƒÂ‘', 'ÃƒÂ‰', 'ÃƒÂ', 'ÃƒÂ', 'ÃƒÂ“', 'ÃƒÂš', 'ÃƒÂƒ', 'ÃƒÂ‹', 'ÃƒÂˆ', 'ÃƒÂ€'];
+
+    $arrayCorrectCharacter = ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', 'É', 'Í', 'Á', 'Ó', 'Ú', 'Ó', 'Ë', 'É', 'Á'];
+
+    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+  }
+
+
+  public static function replaceCharacterString($string)
+  {
+    $arrayStrageCharacter = ['Ã‚Â', 'Ã¢Â€Âœ', 'Ã¢Â€Â', 'Ã¢Â€Â¦'];
+
+    $arrayCorrectCharacter = ['', '"', '"', '... '];
+
+    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+  }
+
+  public static function replaceVocalLowerCaseString($string)
+  {
+    $arrayStrageCharacter = ['ÃƒÂ¡', 'ÃƒÂ©', 'ÃƒÂ­', 'ÃƒÂ³', 'ÃƒÂ±', 'í¼'];
+
+    $arrayCorrectCharacter = ['á', 'é', 'í', 'ó', 'ñ', 'ü'];
+
+    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+  }
+
+
 
 
   public static function replaceStrangeCharacterString($string)
