@@ -87,7 +87,7 @@ class CollectionsController extends Controller
 
             if (!Str::containsAll($check, ['días', 'hora'])) {
 
-              if (!Str::containsAll($check, ['día', 'horas'])) {
+              if (!Str::containsAll($check, ['1', 'día'])) {
 
                 $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
               }
