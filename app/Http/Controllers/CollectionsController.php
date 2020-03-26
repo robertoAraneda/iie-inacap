@@ -17,9 +17,15 @@ class CollectionsController extends Controller
 
   public function categoryCollectionActive()
   {
-    $category = ReplaceChar::replaceStrangeCharacterArray(Category::where('active', 1)->with('plataforma')->get());
+    $categories = Category::where('active', 1)->with('plataforma')->get();
 
-    return $category;
+    foreach ($categories as $category) {
+      $category->nombre =  ReplaceChar::replaceVocalUpperCaseString($category->nombre);
+      $category->nombre =  ReplaceChar::replaceVocalLowerCaseString($category->nombre);
+      $category->nombre =  ReplaceChar::replaceCharacterString($category->nombre);
+    }
+
+    return $categories;
   }
 
 
@@ -30,13 +36,16 @@ class CollectionsController extends Controller
 
     $arrayCourseActive = [];
 
-    //return $activeCategories;
-
     foreach ($activeCategories as $activeCategory) {
 
-      $activeCourses = ReplaceChar::replaceStrangeCharacterArray(Cursos::where('idcategory', $activeCategory->idcategory)->get());
+      $activeCourses = Cursos::where('idcategory', $activeCategory->idcategory)->get();
 
       foreach ($activeCourses as $activeCourse) {
+
+        $activeCourse->nombre = ReplaceChar::replaceVocalUpperCaseString($activeCourse->nombre);
+        $activeCourse->nombre = ReplaceChar::replaceVocalLowerCaseString($activeCourse->nombre);
+        $activeCourse->nombre = ReplaceChar::replaceCharacterString($activeCourse->nombre);
+
         $arrayCourseActive[] = $activeCourse;
       }
     }
@@ -53,11 +62,20 @@ class CollectionsController extends Controller
 
     foreach ($activeCourses as $activeCourse) {
 
-      $activeActivities = ReplaceChar::replaceStrangeCharacterArray(AppActividades::where('idrcurso', $activeCourse['idrcurso'])
+      $activeActivities = AppActividades::where('idrcurso', $activeCourse['idrcurso'])
         ->with('curso')
-        ->get());
+        ->get();
 
       foreach ($activeActivities as $activeActivity) {
+
+        $activeActivity->nombre = ReplaceChar::replaceVocalUpperCaseString($activeActivity->nombre);
+        $activeActivity->nombre = ReplaceChar::replaceVocalLowerCaseString($activeActivity->nombre);
+        $activeActivity->nombre = ReplaceChar::replaceCharacterString($activeActivity->nombre);
+
+        $activeActivity->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeActivity->curso->nombre);
+        $activeActivity->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeActivity->curso->nombre);
+        $activeActivity->curso->nombre = ReplaceChar::replaceCharacterString($activeActivity->curso->nombre);
+
         $arrayActiveActivities[] = $activeActivity;
       }
     }
@@ -73,9 +91,9 @@ class CollectionsController extends Controller
     $arrayActiveRegisteredUsers = [];
 
     foreach ($activeCourses as $activeCourse) {
-      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])
+      $activeRegisteredUsers = Inscritos::where('idrcurso', $activeCourse['idrcurso'])
         ->with('curso')
-        ->get());
+        ->get();
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
 
@@ -84,6 +102,10 @@ class CollectionsController extends Controller
         if (!Str::contains($check, 'dí­a')) {
 
           if (!Str::contains($check, 'Nunca')) {
+
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->curso->nombre);
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->curso->nombre);
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
 
             $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
           }
@@ -122,11 +144,23 @@ class CollectionsController extends Controller
     $arrayActiveRegisteredUsers = [];
 
     foreach ($activeCourses as $activeCourse) {
-      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])
+      $activeRegisteredUsers = Inscritos::where('idrcurso', $activeCourse['idrcurso'])
         ->with('curso')
-        ->get());
+        ->get();
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
+
+        $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
+        $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
+        $activeRegisteredUser->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->nombre);
+
+        $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->curso->nombre);
+        $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->curso->nombre);
+        $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
+
+        $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->ultimoacceso);
+        $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->ultimoacceso);
+        $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceCharacterString($activeRegisteredUser->ultimoacceso);
 
         $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
       }
@@ -146,9 +180,9 @@ class CollectionsController extends Controller
     foreach ($courseRegisteredUsers as $courseRegisteredUser) {
 
       $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
-    }
 
-    return $arrayActiveActivities;
+      return $arrayActiveActivities;
+    }
   }
 
 
