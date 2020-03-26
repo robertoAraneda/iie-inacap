@@ -103,6 +103,14 @@ class CollectionsController extends Controller
 
           if (!Str::contains($check, 'Nunca')) {
 
+            $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
+            $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
+            $activeRegisteredUser->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->nombre);
+
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->ultimoacceso);
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->ultimoacceso);
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceCharacterString($activeRegisteredUser->ultimoacceso);
+
             $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->curso->nombre);
             $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->curso->nombre);
             $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
