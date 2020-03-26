@@ -24,12 +24,12 @@ Route::get('/collection/cursos/all', 'CollectionsController@courseCollectionActi
 
 Route::get('/collection/actividades/all', 'CollectionsController@activitiesCollectionActive');
 
-Route::get('/collection/inscrito-actividad/all', 'CollectionsController@activityCourseRegisteredUserActive');
+Route::get('/collection/inscrito-actividad/filtered', 'CollectionsController@activityCourseRegisteredUserActive');
 
 Route::get('/collection/inscrito/all', 'CollectionsController@registeredUserActiveInit');
 
 
 
-Route::get('/collection/inscrito-actividad/filtered', 'CollectionsController@activityCourseRegisteredUserActiveInit');
+Route::get('/collection/inscrito-actividad/all', 'CollectionsController@activityCourseRegisteredUserActiveInit');
 
 Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUserActive');
