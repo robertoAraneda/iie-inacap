@@ -5,33 +5,15 @@ namespace App\Http\Controllers;
 use App\Actividades as AppActividades;
 use App\Category;
 use App\Cursos;
-use App\Http\Resources\Actividades;
 use App\InscritoActividad;
 use App\Inscritos;
 use App\Plataforma;
 use App\ReplaceChar;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CollectionsController extends Controller
 {
-  public function cursosCollection()
-  {
 
-    $courses = Cursos::orderBy('idrcurso')
-      ->with('plataforma')
-      ->with('category')
-      ->cursor()->filter(function ($curso) {
-
-        $curso->activities;
-
-        $curso->usersRegistered;
-
-        return $curso->category->active == 1;
-      });
-
-    return response()->json($courses, 200);
-  }
 
   public function categoryCollectionActive()
   {
@@ -101,8 +83,9 @@ class CollectionsController extends Controller
 
         if (!Str::containsAll($check, ['dí­as', 'horas'])) {
           if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
-            $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
           }
+
+          $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
         }
       }
     }
@@ -125,21 +108,12 @@ class CollectionsController extends Controller
     return $arrayActiveActivities;
   }
 
-  public function activityCourseRegisteredUserActive24()
-  {
 
-    $courseRegisteredUsers = $this->registeredUserActive();
 
-    $arrayActiveActivities = [];
 
-    foreach ($courseRegisteredUsers as $courseRegisteredUser) {
 
-      $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
-    }
 
-    return count($arrayActiveActivities[]);
-  }
-
+  /**metodos para obtener todoa la base de datos iie */
 
   public function plataformaCollection()
   {
@@ -208,5 +182,24 @@ class CollectionsController extends Controller
     $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(10000);
 
     return $registeredUserActivity;
+  }
+
+
+  public function cursosCollection()
+  {
+
+    $courses = Cursos::orderBy('idrcurso')
+      ->with('plataforma')
+      ->with('category')
+      ->cursor()->filter(function ($curso) {
+
+        $curso->activities;
+
+        $curso->usersRegistered;
+
+        return $curso->category->active == 1;
+      });
+
+    return response()->json($courses, 200);
   }
 }
