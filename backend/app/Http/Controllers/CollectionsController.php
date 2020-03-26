@@ -11,6 +11,7 @@ use App\Inscritos;
 use App\Plataforma;
 use App\ReplaceChar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CollectionsController extends Controller
 {
@@ -95,7 +96,14 @@ class CollectionsController extends Controller
         ->get());
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
-        $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+
+        $check = $activeRegisteredUser['ultimoacceso'];
+
+        if (!Str::containsAll($check, ['dí­as', 'horas'])) {
+          if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
+            $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+          }
+        }
       }
     }
 
@@ -111,14 +119,26 @@ class CollectionsController extends Controller
 
     foreach ($courseRegisteredUsers as $courseRegisteredUser) {
 
-      $userRegisterActivities = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
-
-      $arrayActiveActivities[] = $userRegisterActivities;
+      $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
     }
 
     return $arrayActiveActivities;
   }
 
+  public function activityCourseRegisteredUserActive24()
+  {
+
+    $courseRegisteredUsers = $this->registeredUserActive();
+
+    $arrayActiveActivities = [];
+
+    foreach ($courseRegisteredUsers as $courseRegisteredUser) {
+
+      $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
+    }
+
+    return count($arrayActiveActivities[]);
+  }
 
 
   public function plataformaCollection()

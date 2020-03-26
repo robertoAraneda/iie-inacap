@@ -203,7 +203,9 @@ class SynchronizeController extends Controller
   public function syncronizeAppDaily()
   {
 
-    // $response = Http::get('http://localhost:8000/api/collection/categorias/active');
+    $base_url = 'http://ayuda2-emineduc.iie.cl/iie-inacap/backend/public/';
+
+    // $response = Http::get($base_url . "api/collection/categorias/active");
 
     // $categoriesActive = $response->json();
 
@@ -231,7 +233,7 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    // $response2 = Http::get('http://localhost:8000/api/collection/cursos/active');
+    // $response2 = Http::get($base_url . "api/collection/cursos/active");
 
     // $activeCourses = $response2->json();
 
@@ -252,7 +254,7 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    // $response3 = Http::get('http://localhost:8000/api/collection/actividades/active');
+    // $response3 = Http::get($base_url . "api/collection/actividades/active");
 
     // $activeActivities = $response3->json();
 
@@ -272,7 +274,7 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    // $response4 = Http::get('http://localhost:8000/api/collection/inscritos/active');
+    // $response4 = Http::get($base_url . "api/collection/inscritos/active");
 
     // $activeRegisteredUsers = $response4->json();
 
@@ -302,43 +304,44 @@ class SynchronizeController extends Controller
     //   }
     // }
 
-    $base_url = 'http://ayuda2-emineduc.iie.cl/iie-inacap/backend/public/';
-
-    $response5 = Http::get($base_url . "api/collection/inscrito-actividad/active");
+    $response5 = Http::get($base_url . "                                                                           ");
 
     $registeredUserActivities = $response5->json();
 
-    foreach ($registeredUserActivities as $registeredUserActivity) {
+    foreach ($registeredUserActivities as $keys) {
+      foreach ($keys as $registeredUserActivity) {
 
-      $courseRegistereduserController = new CourseRegisteredUserController();
-      $activityController = new ActivityController();
-      $courseController = new CourseController();
-      $registeredUserController = new RegisteredUserController();
-      $activityCourseRegisteredUserController = new ActivityCourseRegisteredUserController();
+        $courseRegistereduserController = new CourseRegisteredUserController();
+        $activityController = new ActivityController();
+        $courseController = new CourseController();
+        $registeredUserController = new RegisteredUserController();
+        $activityCourseRegisteredUserController = new ActivityCourseRegisteredUserController();
 
-      $courseSearch = $courseController->findByIdCourseMoodle($registeredUserActivity['user_registered']['curso']['idcurso']);
-      $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($registeredUserActivity['user_registered']['iduser']);
+        $courseSearch = $courseController->findByIdCourseMoodle($registeredUserActivity['user_registered']['curso']['idcurso']);
+        $registeredUserSearch = $registeredUserController->findByIdRegisteredUserMoodle($registeredUserActivity['user_registered']['iduser']);
 
 
-      $activitySearch = $activityController->findByIdActivityMoodle($registeredUserActivity['activity']['idmod']);
+        $activitySearch = $activityController->findByIdActivityMoodle($registeredUserActivity['activity']['idmod']);
 
-      $registeredUserActivityFormat['curso']['idrcurso'] = $courseSearch->id;
-      $registeredUserActivityFormat['iduser'] = $registeredUserSearch->id;
+        $registeredUserActivityFormat['curso']['idrcurso'] = $courseSearch->id;
+        $registeredUserActivityFormat['iduser'] = $registeredUserSearch->id;
 
-      $courseRegisteredUserSearch = $courseRegistereduserController->findByIdCourseRegisteredUser($registeredUserActivityFormat);
+        $courseRegisteredUserSearch = $courseRegistereduserController->findByIdCourseRegisteredUser($registeredUserActivityFormat);
 
-      if (isset($courseSearch) && isset($registeredUserSearch) && isset($courseRegisteredUserSearch) && isset($activitySearch)) {
+        if (isset($courseSearch) && isset($registeredUserSearch) && isset($courseRegisteredUserSearch) && isset($activitySearch)) {
 
-        $activityCourseRegisteredUserSearch = $activityCourseRegisteredUserController->findByIdActivityCourseRegisteredUser($activitySearch->id, $courseRegisteredUserSearch->id);
+          $activityCourseRegisteredUserSearch = $activityCourseRegisteredUserController->findByIdActivityCourseRegisteredUser($activitySearch->id, $courseRegisteredUserSearch->id);
 
-        if (!isset($activityCourseRegisteredUserSearch)) {
-          $registeredUserActivity['idinscrito'] = $courseRegisteredUserSearch->id;
-          $registeredUserActivity['idacividad'] = $activitySearch->id;
+          if (!isset($activityCourseRegisteredUserSearch)) {
+            $registeredUserActivity['idinscrito'] = $courseRegisteredUserSearch->id;
+            $registeredUserActivity['idacividad'] = $activitySearch->id;
 
-          $response = $activityCourseRegisteredUserController->store($registeredUserActivity);
+            $response = $activityCourseRegisteredUserController->store($registeredUserActivity);
+          }
         }
       }
     }
+
 
     return 'OK-Daily';
   }
