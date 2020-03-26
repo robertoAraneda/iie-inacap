@@ -82,9 +82,11 @@ class CollectionsController extends Controller
         $check = $activeRegisteredUser['ultimoacceso'];
 
         if (!Str::containsAll($check, ['dí­as', 'horas'])) {
-          if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
-          }
 
+          // if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
+          // }
+
+        } else if (!Str::contains($check, 'Nunca')) {
           $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
         }
       }
