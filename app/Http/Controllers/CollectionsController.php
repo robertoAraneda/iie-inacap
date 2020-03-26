@@ -113,10 +113,93 @@ class CollectionsController extends Controller
 
 
 
-
-
-
   /**metodos para obtener todoa la base de datos iie */
+
+  public function registeredUserActiveInit()
+  {
+    $activeCourses = $this->courseCollectionActive();
+
+    $arrayActiveRegisteredUsers = [];
+
+    foreach ($activeCourses as $activeCourse) {
+      $activeRegisteredUsers = ReplaceChar::replaceStrangeCharacterArray(Inscritos::where('idrcurso', $activeCourse['idrcurso'])
+        ->with('curso')
+        ->get());
+
+      foreach ($activeRegisteredUsers as $activeRegisteredUser) {
+
+        $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+      }
+    }
+
+    return $arrayActiveRegisteredUsers;
+  }
+
+
+  public function activityCourseRegisteredUserActiveInit()
+  {
+
+    $courseRegisteredUsers = $this->registeredUserActiveInit();
+
+    $arrayActiveActivities = [];
+
+    foreach ($courseRegisteredUsers as $courseRegisteredUser) {
+
+      $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
+    }
+
+    return $arrayActiveActivities;
+  }
+
+
+
+
+
+  /** metodos que podrían servir */
+
+  public function registeredUserActivity()
+  {
+
+    $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(10000);
+
+    return $registeredUserActivity;
+  }
+
+
+  public function registeredUsersCollection()
+  {
+
+    $registeredUsers = Inscritos::all();
+
+    foreach ($registeredUsers as $registeredUser) {
+      $registeredUser->ultimoacceso = ReplaceChar::replaceStrangeCharacterString($registeredUser->ultimoacceso);
+
+      $registeredUser->nombre = ReplaceChar::replaceStrangeCharacterString($registeredUser->nombre);
+
+      $registeredUser->curso->nombre = ReplaceChar::replaceStrangeCharacterString($registeredUser->curso->nombre);
+    }
+
+    return response()->json($registeredUsers, 200);
+  }
+
+
+  public function cursosCollection()
+  {
+
+    $courses = Cursos::orderBy('idrcurso')
+      ->with('plataforma')
+      ->with('category')
+      ->cursor()->filter(function ($curso) {
+
+        $curso->activities;
+
+        $curso->usersRegistered;
+
+        return $curso->category->active == 1;
+      });
+
+    return response()->json($courses, 200);
+  }
 
   public function plataformaCollection()
   {
@@ -161,48 +244,5 @@ class CollectionsController extends Controller
       $activity->curso->nombre = ReplaceChar::replaceStrangeCharacterString($activity->curso->nombre);
     }
     return response()->json($activities, 200);
-  }
-
-  public function registeredUsersCollection()
-  {
-
-    $registeredUsers = Inscritos::all();
-
-    foreach ($registeredUsers as $registeredUser) {
-      $registeredUser->ultimoacceso = ReplaceChar::replaceStrangeCharacterString($registeredUser->ultimoacceso);
-
-      $registeredUser->nombre = ReplaceChar::replaceStrangeCharacterString($registeredUser->nombre);
-
-      $registeredUser->curso->nombre = ReplaceChar::replaceStrangeCharacterString($registeredUser->curso->nombre);
-    }
-
-    return response()->json($registeredUsers, 200);
-  }
-
-  public function registeredUserActivity()
-  {
-
-    $registeredUserActivity = InscritoActividad::with('userRegistered.curso', 'activity')->paginate(10000);
-
-    return $registeredUserActivity;
-  }
-
-
-  public function cursosCollection()
-  {
-
-    $courses = Cursos::orderBy('idrcurso')
-      ->with('plataforma')
-      ->with('category')
-      ->cursor()->filter(function ($curso) {
-
-        $curso->activities;
-
-        $curso->usersRegistered;
-
-        return $curso->category->active == 1;
-      });
-
-    return response()->json($courses, 200);
   }
 }

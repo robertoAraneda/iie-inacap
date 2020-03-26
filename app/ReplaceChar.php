@@ -45,6 +45,9 @@ class ReplaceChar
     return $array;
   }
 
+
+
+
   public static function replaceStrangeCharacterString($string)
   {
 

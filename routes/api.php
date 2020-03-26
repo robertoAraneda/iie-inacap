@@ -18,34 +18,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-Route::get('/actividades', 'ActividadesController@index');
-Route::get('/category', 'CategoryController@index');
-Route::get('/cursos', 'CursosController@index');
-Route::get('/inscrito-actividad', 'InscritoActividadController@index');
-Route::get('/inscritos', 'InscritosController@index');
-Route::get('/plataforma', 'PlataformaController@index');
-Route::get('/actividades/{id}', 'ActividadesController@show');
-Route::get('/cursos/{id}', 'CursosController@show');
-Route::get('/category/{id}', 'CategoryController@show');
-Route::get('/inscrito-actividad/{id}', 'InscritoActividadController@show');
-Route::get('/inscritos/{id}', 'InscritosController@show');
-Route::get('/plataforma/{id}', 'PlataformaController@show');
-Route::get('/collection/curso', 'CollectionsController@cursosCollection');
-Route::get('/collection/plataforma', 'CollectionsController@plataformaCollection');
-Route::get('/collection/course-detail/{id}', 'CollectionsController@courseDetail');
-Route::get('/collection/actividades', 'CollectionsController@activitiesCollection');
-Route::get('/collection/inscritos', 'CollectionsController@registeredUsersCollection');
-Route::get('/collection/plataforma/active', 'CollectionsController@plataformaCollectionActive');
-Route::get('/collection/categorias/active', 'CollectionsController@categoryCollectionActive');
+
+Route::get('/collection/cursos/all', 'CollectionsController@courseCollectionActive');
+
+Route::get('/collection/actividades/all', 'CollectionsController@activitiesCollectionActive');
+
+Route::get('/collection/inscrito-actividad/all', 'CollectionsController@activityCourseRegisteredUserActiveInit');
+
+Route::get('/collection/inscrito/all', 'CollectionsController@registeredUserActiveInit');
 
 
 
 
-Route::get('/collection/cursos/active', 'CollectionsController@courseCollectionActive');
+Route::get('/collection/inscrito-actividad/filtered', 'CollectionsController@activityCourseRegisteredUserActive');
 
-Route::get('/collection/actividades/active', 'CollectionsController@activitiesCollectionActive');
-
-Route::get('/collection/inscritos/active', 'CollectionsController@registeredUserActive');
-
-
-Route::get('/collection/inscrito-actividad/active', 'CollectionsController@activityCourseRegisteredUserActive');
+Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUserActive');
