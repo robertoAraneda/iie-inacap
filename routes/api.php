@@ -48,4 +48,4 @@ Route::get('/collection/actividades/active', 'CollectionsController@activitiesCo
 Route::get('/collection/inscritos/active', 'CollectionsController@registeredUserActive');
 
 
-Route::get('/collection/inscrito-actividad/active', 'CollectionsController@activityCourseRegisteredUserActive24');
+Route::get('/collection/inscrito-actividad/active', 'CollectionsController@activityCourseRegisteredUserActive');
