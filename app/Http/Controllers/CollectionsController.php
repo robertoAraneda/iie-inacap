@@ -190,9 +190,9 @@ class CollectionsController extends Controller
     foreach ($courseRegisteredUsers as $courseRegisteredUser) {
 
       $arrayActiveActivities[] = InscritoActividad::where('idinscrito', $courseRegisteredUser['idinscrito'])->with('userRegistered.curso', 'activity')->get();
-
-      return $arrayActiveActivities;
     }
+
+    return $arrayActiveActivities;
   }
 
 
