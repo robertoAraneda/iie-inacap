@@ -97,9 +97,11 @@ class CollectionsController extends Controller
 
       foreach ($activeRegisteredUsers as $activeRegisteredUser) {
 
+        //    $activeRegisteredUser = $activeRegisteredUsers[1];
+
         $check = $activeRegisteredUser['ultimoacceso'];
 
-        if (!Str::contains($check, 'dí­a')) {
+        if (!Str::contains($check, 'dÃƒÂ­a')) {
 
           if (!Str::contains($check, 'Nunca')) {
 
