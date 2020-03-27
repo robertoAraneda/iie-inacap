@@ -101,9 +101,8 @@ class CollectionsController extends Controller
 
         $check = $activeRegisteredUser['ultimoacceso'];
 
-        if (!Str::contains($check, 'dÃƒÂ­a')) {
-
-          if (!Str::contains($check, 'Nunca')) {
+        switch ($check) {
+          case '1 dÃƒÂ­a':
 
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
@@ -118,9 +117,50 @@ class CollectionsController extends Controller
             $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
 
             $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
-          }
-          // if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
-          // }
+
+            break;
+
+          case '2 dÃƒÂ­as':
+
+            $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
+            $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
+            $activeRegisteredUser->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->nombre);
+
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->ultimoacceso);
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->ultimoacceso);
+            $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceCharacterString($activeRegisteredUser->ultimoacceso);
+
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->curso->nombre);
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->curso->nombre);
+            $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
+
+            $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+
+            break;
+
+          default:
+
+            if (!Str::contains($check, 'dÃƒÂ­a')) {
+
+              if (!Str::contains($check, 'Nunca')) {
+
+                $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
+                $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
+                $activeRegisteredUser->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->nombre);
+
+                $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->ultimoacceso);
+                $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->ultimoacceso);
+                $activeRegisteredUser->ultimoacceso = ReplaceChar::replaceCharacterString($activeRegisteredUser->ultimoacceso);
+
+                $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->curso->nombre);
+                $activeRegisteredUser->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->curso->nombre);
+                $activeRegisteredUser->curso->nombre = ReplaceChar::replaceCharacterString($activeRegisteredUser->curso->nombre);
+
+                $arrayActiveRegisteredUsers[] = $activeRegisteredUser;
+              }
+              // if ($activeRegisteredUser['curso']['idcurso'] == 9135) {
+              // }
+            }
         }
       }
     }
