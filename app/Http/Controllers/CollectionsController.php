@@ -102,7 +102,7 @@ class CollectionsController extends Controller
         $check = $activeRegisteredUser['ultimoacceso'];
 
         switch ($check) {
-          case '1 dÃƒÂ­a':
+          case Str::contains($check, '1 dÃƒÂ­a'):
 
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
@@ -120,7 +120,7 @@ class CollectionsController extends Controller
 
             break;
 
-          case '2 dÃƒÂ­as':
+          case Str::contains($check, '2 dÃƒÂ­a'):
 
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalUpperCaseString($activeRegisteredUser->nombre);
             $activeRegisteredUser->nombre = ReplaceChar::replaceVocalLowerCaseString($activeRegisteredUser->nombre);
