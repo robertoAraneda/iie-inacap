@@ -332,7 +332,9 @@ class CollectionsController extends Controller
 
   public function findUsersByCourse($idMoodleCourse)
   {
-    $course = Cursos::where('idcurso', $idMoodleCourse)->get()->first();
+    $course = Cursos::where('idcurso', $idMoodleCourse)->first();
+
+    return $course;
 
     if (isset($course)) {
       $users = Inscritos::where('idrcurso', $course->id)->get();
