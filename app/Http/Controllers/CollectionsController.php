@@ -329,4 +329,17 @@ class CollectionsController extends Controller
     }
     return response()->json($activities, 200);
   }
+
+  public function findUsersByCourse($idMoodleCourse)
+  {
+    $course = Cursos::where('idcurso', $idMoodleCourse)->get()->first();
+
+    if (isset($course)) {
+      $users = Inscritos::where('idrcurso', $course->id)->get();
+
+      return response()->json($users, 200);
+    } else {
+      return response()->json(null, 204);
+    }
+  }
 }

@@ -33,3 +33,9 @@ Route::get('/collection/inscrito/all', 'CollectionsController@registeredUserActi
 Route::get('/collection/inscrito-actividad/all', 'CollectionsController@activityCourseRegisteredUserActiveInit');
 
 Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUserActive');
+
+
+
+//optimización de consultas
+
+Route::get('/course/{idcourseMoodle}/users', 'CollectionsController@findUsersByCourse');
