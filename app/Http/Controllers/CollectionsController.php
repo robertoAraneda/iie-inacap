@@ -334,12 +334,31 @@ class CollectionsController extends Controller
   {
     $course = Cursos::where('idcurso', $idMoodleCourse)->first();
 
-    return $course;
 
     if (isset($course)) {
-      $users = Inscritos::where('idrcurso', $course->id)->get();
+      $users = Inscritos::where('idrcurso', $course['idrcurso'])->get();
 
-      return response()->json($users, 200);
+      $arrayUsers = [];
+
+      foreach ($users as $user) {
+        $user->nombre = ReplaceChar::replaceVocalUpperCaseString($user->nombre);
+        $user->nombre = ReplaceChar::replaceVocalLowerCaseString($user->nombre);
+        $user->nombre = ReplaceChar::replaceCharacterString($user->nombre);
+
+        $user->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($user->curso->nombre);
+        $user->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($user->curso->nombre);
+        $user->curso->nombre = ReplaceChar::replaceCharacterString($user->curso->nombre);
+
+        $user->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($user->ultimoacceso);
+        $user->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($user->ultimoacceso);
+        $user->ultimoacceso = ReplaceChar::replaceCharacterString($user->ultimoacceso);
+
+        $arrayUsers[] = $user;
+      }
+
+
+
+      return response()->json($arrayUsers, 200);
     } else {
       return response()->json(null, 204);
     }
