@@ -366,7 +366,7 @@ class CollectionsController extends Controller
 
   public function findCourseByIdMoodle($idMoodle)
   {
-    $course = Cursos::where('idrcurso', $idMoodle)->first();
+    $course = Cursos::where('idcurso', $idMoodle)->first();
 
     return response()->json($course, 200);
   }
