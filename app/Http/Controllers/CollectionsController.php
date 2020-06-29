@@ -375,6 +375,16 @@ class CollectionsController extends Controller
   {
     $activities = AppActividades::where('idrcurso', $idCourse)->get();
 
-    return response()->json($activities, 200);
+    $arrayActivities = [];
+
+    foreach ($activities as $activity) {
+      $activity->nombre = ReplaceChar::replaceVocalUpperCaseString($activity->nombre);
+      $activity->nombre = ReplaceChar::replaceVocalLowerCaseString($activity->nombre);
+      $activity->nombre = ReplaceChar::replaceCharacterString($activity->nombre);
+
+      $arrayActivities[] = $activity;
+    }
+
+    return response()->json($arrayActivities, 200);
   }
 }
