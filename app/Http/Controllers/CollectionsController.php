@@ -387,4 +387,13 @@ class CollectionsController extends Controller
 
     return response()->json($arrayActivities, 200);
   }
+
+  public function findActivitiesByUser($idUser)
+  {
+    $user = Inscritos::where('iduser', $idUser)->first();
+
+    $activitiesByUser = InscritoActividad::where('idinscrito', $user['idinscrito'])->get();
+
+    return response()->json($activitiesByUser, 200);
+  }
 }

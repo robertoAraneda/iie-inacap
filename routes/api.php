@@ -42,3 +42,5 @@ Route::get('/course/{idcourseMoodle}/users', 'CollectionsController@findUsersByC
 Route::get('/course/{idMoodle}', 'CollectionsController@findCourseByIdMoodle');
 
 Route::get('/course/{idCourse}/activities', 'CollectionsController@findActivitiesByCourse');
+
+Route::get('/user/{iduser}/activities', 'CollectionsController@findActivitiesByUser');
