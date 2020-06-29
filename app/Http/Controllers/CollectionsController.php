@@ -395,7 +395,7 @@ class CollectionsController extends Controller
     if (isset($course)) {
       $user = Inscritos::where('iduser', $idUser)->where('idrcurso', $course['idrcurso'])->first();
 
-      $activitiesByUser = InscritoActividad::where('idinscrito', $user['idinscrito'])->get();
+      $activitiesByUser = InscritoActividad::where('idinscrito', $user['idinscrito'])->with('activity')->get();
 
       return response()->json($activitiesByUser, 200);
     }
