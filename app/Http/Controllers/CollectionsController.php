@@ -400,4 +400,12 @@ class CollectionsController extends Controller
       return response()->json($activitiesByUser, 200);
     }
   }
+
+
+  public function findActivityByIdMoodle($idMoodle)
+  {
+    $activity = AppActividades::where('idmod', $idMoodle)->first();
+
+    return response()->json($activity, 200);
+  }
 }
