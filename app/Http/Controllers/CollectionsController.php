@@ -408,4 +408,11 @@ class CollectionsController extends Controller
 
     return response()->json($activity, 200);
   }
+
+  public function findActivityById($id)
+  {
+    $activity = AppActividades::find($id);
+
+    return response()->json($activity, 200);
+  }
 }
