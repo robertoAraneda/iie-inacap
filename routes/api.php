@@ -39,3 +39,4 @@ Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUse
 //optimización de consultas
 
 Route::get('/course/{idcourseMoodle}/users', 'CollectionsController@findUsersByCourse');
+Route::get('/course/{idMoodle}', 'CollectionsController@findCourseByIdMoodle');

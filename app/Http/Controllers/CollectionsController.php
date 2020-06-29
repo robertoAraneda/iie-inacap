@@ -363,4 +363,11 @@ class CollectionsController extends Controller
       return response()->json(null, 204);
     }
   }
+
+  public function findCourseByIdMoodle($idMoodle)
+  {
+    $course = Cursos::where('idrcurso', $idMoodle)->first();
+
+    return response()->json($course, 200);
+  }
 }
