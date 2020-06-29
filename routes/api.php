@@ -40,3 +40,5 @@ Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUse
 
 Route::get('/course/{idcourseMoodle}/users', 'CollectionsController@findUsersByCourse');
 Route::get('/course/{idMoodle}', 'CollectionsController@findCourseByIdMoodle');
+
+Route::get('/course/{idCourse}/activities', 'CollectionsController@findActivitiesByCourse');

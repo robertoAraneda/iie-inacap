@@ -370,4 +370,11 @@ class CollectionsController extends Controller
 
     return response()->json($course, 200);
   }
+
+  public function findActivitiesByCourse($idCourse)
+  {
+    $activities = AppActividades::where('idrcurso', $idCourse)->get();
+
+    return response()->json($activities, 200);
+  }
 }
