@@ -416,7 +416,7 @@ class CollectionsController extends Controller
     return response()->json($activity, 200);
   }
 
-  public function findUserByRut($rut, $idCourse)
+  public function findUserByRut($idCourse, $rut)
   {
     $course = Cursos::where('idcurso', $idCourse)->first();
 

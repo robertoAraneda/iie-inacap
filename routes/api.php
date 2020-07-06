@@ -49,4 +49,4 @@ Route::get('/activities/{idActviityMoodle}', 'CollectionsController@findActivity
 
 Route::get('/activity/{id}', 'CollectionsController@findActivityById');
 
-Route::get('/users/{rut}', 'CollectionsController@findUserByRut');
+Route::get('/course/{idCourse}/users/{rut}', 'CollectionsController@findUserByRut');
