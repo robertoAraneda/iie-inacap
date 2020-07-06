@@ -423,6 +423,18 @@ class CollectionsController extends Controller
     if (isset($course)) {
       $user = Inscritos::where('rut', $rut)->where('idrcurso', $course['idrcurso'])->first();
 
+      $user->nombre = ReplaceChar::replaceVocalUpperCaseString($user->nombre);
+      $user->nombre = ReplaceChar::replaceVocalLowerCaseString($user->nombre);
+      $user->nombre = ReplaceChar::replaceCharacterString($user->nombre);
+
+      $user->curso->nombre = ReplaceChar::replaceVocalUpperCaseString($user->curso->nombre);
+      $user->curso->nombre = ReplaceChar::replaceVocalLowerCaseString($user->curso->nombre);
+      $user->curso->nombre = ReplaceChar::replaceCharacterString($user->curso->nombre);
+
+      $user->ultimoacceso = ReplaceChar::replaceVocalUpperCaseString($user->ultimoacceso);
+      $user->ultimoacceso = ReplaceChar::replaceVocalLowerCaseString($user->ultimoacceso);
+      $user->ultimoacceso = ReplaceChar::replaceCharacterString($user->ultimoacceso);
+
       return response()->json($user, 200);
     }
   }
