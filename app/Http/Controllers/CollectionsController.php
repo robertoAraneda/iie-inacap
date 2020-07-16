@@ -408,7 +408,7 @@ class CollectionsController extends Controller
     $activities = [];
     foreach ($array as $value) {
 
-      $activity =  InscritoActividad::where('idinscrito', $userMoodle)->where('idrcurso', $courseModle)->where('idinscritoactividad', $value)->with(['activity', 'userRegistered'])->get();
+      $activity =  InscritoActividad::where('idinscrito', $userMoodle)->where('idinscritoactividad', $value)->with(['activity', 'userRegistered'])->get();
 
 
       $activities[] = $activity;
