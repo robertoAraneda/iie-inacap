@@ -406,7 +406,7 @@ class CollectionsController extends Controller
     $array = json_decode($array);
 
     $activities = [];
-    foreach ($array as $value) {
+    foreach ($array as $key => $value) {
 
       $activitiyMoodle = AppActividades::where('idmod', $value)->first();
       $user = Inscritos::where('iduser', $userMoodle)->first();
@@ -415,6 +415,8 @@ class CollectionsController extends Controller
 
 
       $activities[] = $activity;
+      $activities['user'] = $activitiyMoodle;
+      $activities['activity'] = $activity;
     }
 
     return $activities;
