@@ -407,25 +407,26 @@ class CollectionsController extends Controller
 
     $course = Cursos::where('idcurso', $courseModle)->first();
 
-    $activities = [];
-    foreach ($array as $key => $value) {
+    if (isset($course)) {
 
-      $activitiyMoodle = AppActividades::where('idmod', $value)->first();
-      $user = Inscritos::where('iduser', $userMoodle)->first();
+      $activities = [];
+      foreach ($array as $key => $value) {
 
-      $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idacividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
+        $activitiyMoodle = AppActividades::where('idmod', $value)->first();
+        $user = Inscritos::where('iduser', $userMoodle)->first();
+
+        $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idacividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
 
 
-      $activities['relActivityuser'][] = $activity;
-      $activities['user'][] =  $user;
-      $activities['activity'][] =  $activitiyMoodle;
-      $activities['key'][] = $key;
-      $activities['value'][] = $value;
-      $activities['array'][] = $array;
-      $activities['course'][] = $course;
+        $activities['relActivityuser'][] = $activity;
+        $activities['activity'][] =  $activitiyMoodle;
+      }
+      $activities['user'] =  $user;
+      $activities['course'] = $course;
+      return response()->json(['data' => $activities], 200);
+    } else {
+      return response()->json(['message' => 'No existe el curso en Moodle'], 200);
     }
-
-    return $activities;
   }
 
   public function findActivityByIdMoodle($idMoodle)
