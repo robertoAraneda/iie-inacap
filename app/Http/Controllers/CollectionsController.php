@@ -414,11 +414,12 @@ class CollectionsController extends Controller
       $activity =  InscritoActividad::where('idinscrito', $user['iduser'])->where('idinscritoactividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
 
 
-      $activities[] = $activity;
-      $activities['user'] = $activitiyMoodle;
-      $activities['activity'] = $activity;
-      $activities['key'] = $key;
-      $activities['value'] = $value;
+      $activities['relActivityuser'][] = $activity;
+      $activities['user'][] =  $user;
+      $activities['activity'][] =  $activitiyMoodle;
+      $activities['key'][] = $key;
+      $activities['value'][] = $value;
+      $activities['array'][] = $array;
     }
 
     return $activities;
