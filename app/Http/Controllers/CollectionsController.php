@@ -413,7 +413,7 @@ class CollectionsController extends Controller
       $activitiyMoodle = AppActividades::where('idmod', $value)->first();
       $user = Inscritos::where('iduser', $userMoodle)->first();
 
-      $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idinscritoactividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
+      $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idacividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
 
 
       $activities['relActivityuser'][] = $activity;
