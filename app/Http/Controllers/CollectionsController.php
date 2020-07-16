@@ -401,6 +401,21 @@ class CollectionsController extends Controller
     }
   }
 
+  public function findContributeActivity($courseModle, $userMoodle, $array)
+  {
+    $array = json_decode($array);
+
+    $activities = [];
+    foreach ($array as $value) {
+
+      $activity =  InscritoActividad::where('idinscrito', $userMoodle)->where('idrcurso', $courseModle)->where('idinscritoactividad', $value)->with(['activity', 'userRegistered'])->get();
+
+
+      $activities[] = $activity;
+    }
+
+    return $activities;
+  }
 
   public function findActivityByIdMoodle($idMoodle)
   {
