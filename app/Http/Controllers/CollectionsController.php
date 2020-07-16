@@ -405,13 +405,15 @@ class CollectionsController extends Controller
   {
     $array = json_decode($array);
 
+    $course = Cursos::where('idcurso', $courseModle)->first();
+
     $activities = [];
     foreach ($array as $key => $value) {
 
       $activitiyMoodle = AppActividades::where('idmod', $value)->first();
       $user = Inscritos::where('iduser', $userMoodle)->first();
 
-      $activity =  InscritoActividad::where('idinscrito', $user['iduser'])->where('idinscritoactividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
+      $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idinscritoactividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
 
 
       $activities['relActivityuser'][] = $activity;
@@ -420,6 +422,7 @@ class CollectionsController extends Controller
       $activities['key'][] = $key;
       $activities['value'][] = $value;
       $activities['array'][] = $array;
+      $activities['course'][] = $course;
     }
 
     return $activities;
