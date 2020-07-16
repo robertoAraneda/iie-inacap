@@ -417,6 +417,8 @@ class CollectionsController extends Controller
       $activities[] = $activity;
       $activities['user'] = $activitiyMoodle;
       $activities['activity'] = $activity;
+      $activity['key'] = $key;
+      $activity['value'] = $value;
     }
 
     return $activities;
