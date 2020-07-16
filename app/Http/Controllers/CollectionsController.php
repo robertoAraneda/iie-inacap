@@ -401,7 +401,7 @@ class CollectionsController extends Controller
     }
   }
 
-  public function findContributeActivity($courseModle, $userMoodle, $array)
+  public function findContributeActivity($userMoodle, $courseModle, $array)
   {
     $array = json_decode($array);
 
