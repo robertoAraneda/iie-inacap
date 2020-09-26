@@ -469,4 +469,14 @@ class CollectionsController extends Controller
       }
     }
   }
+
+  public function findPendingActivitiesByUser($idActivityMoodle)
+  {
+
+    return $idActivityMoodle;
+
+    $activity =  InscritoActividad::where('idacividad', $idActivityMoodle)->with(['activity', 'userRegistered'])->first();
+
+    return $activity;
+  }
 }
