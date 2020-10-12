@@ -495,25 +495,26 @@ class CollectionsController extends Controller
       if ($activity->tipo == 'Tareas') {
         $pending = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'Sin entrega')
-          ->get()->map(function($user){
+          ->get()->map(function ($user) {
             return $user->idinscrito;
           });
       } else {
         $pending = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
-          ->get()->map(function($user){
+          ->get()->map(function ($user) {
             return $user->idinscrito;
           });
       }
 
-    
-/* 
-      foreach ($pending as $user) {
-        foreach ($users as $u) {
-          $index = array_search($user, $u);
+      if (count($users) == 0) {
+        $users = $pending;
+      } else {
+        foreach ($pending as $id) {
+          $index = array_search($id, $users);
+          $userFinal[] = $index;
         }
-       
-      } */
+      }
+
 
 
 
@@ -526,6 +527,7 @@ class CollectionsController extends Controller
       $activities['count_sin_entrega'] = count($pending);
       $activities['count_no'] = count($pending);
       $activities['activity'] = $activity;
+      $activities['index'] = $userFinal;
       $activities['sin_entrega'] = $pending;
       $activities['no'] = $pending;
       $activities['idMysql'] = $activity->idactividad;
