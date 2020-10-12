@@ -488,13 +488,19 @@ class CollectionsController extends Controller
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
 
-      $pendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
+      $pendingActivities1 = InscritoActividad::where('idacividad', $activity->idactividad)
       ->where('estado', 'Sin entrega')
-      ->orWhere('estado', 'No')
       ->get();
 
+      $pendingActivities2= InscritoActividad::where('idacividad', $activity->idactividad)
+      ->where('estado', 'No')
+      ->get();
+
+      $activities['count_sin_entrega'] = count($pendingActivities1);
+      $activities['count_no'] = count($pendingActivities2);
       $activities['activity'] = $activity;
-      $activities['pending'] = $pendingActivities;
+      $activities['sin_entrega'] = $pendingActivities1;
+      $activities['no'] = $pendingActivities2;
       $activities['idMysql'] = $activity->idactividad;
       $activities['idmoodle'] = $idActivity;
       return $activities;
