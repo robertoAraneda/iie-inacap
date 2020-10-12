@@ -507,13 +507,16 @@ class CollectionsController extends Controller
       }
 
       if (count($users) == 0) {
-        $users = (array) $pending;
+
+        foreach ($pending as $value) {
+          $users[] = $value;
+        }
       } else {
         foreach ($pending as $id) {
           $index = array_search($id, $users);
           $userFinal[] = $index;
 
-          return $pending;
+          return $users;
         }
       }
       $activities['count_sin_entrega'] = count($pending);
