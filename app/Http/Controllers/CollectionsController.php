@@ -514,16 +514,6 @@ class CollectionsController extends Controller
           $userFinal[] = $index;
         }
       }
-
-
-
-
-
-
-
-
-
-
       $activities['count_sin_entrega'] = count($pending);
       $activities['count_no'] = count($pending);
       $activities['activity'] = $activity;
@@ -532,7 +522,9 @@ class CollectionsController extends Controller
       $activities['no'] = $pending;
       $activities['idMysql'] = $activity->idactividad;
       $activities['idmoodle'] = $idActivity;
-      return $activities;
+
     }
+
+    return $activities;
   }
 }
