@@ -489,15 +489,16 @@ class CollectionsController extends Controller
       $activity = AppActividades::where('idmod', $idActivity)->first();
 
       $pendingActivities = InscritoActividad::where('idacividad', $activity->idActividad)
-      ->where('estado', 'Sin entrega')
-      ->orWhere('estado', 'No')->get();
+      ->where('estado', 'Sin entrega')->get();
 
       $activities['activity'] = $activity;
       $activities['pending'] = $pendingActivities;
- 
-
+      $activities['idMysql'] = $activity->idActividad;
+      $activities['idmoodle'] = $idActivity;
+      
+      return $activities;
     }
 
-    return $activities;
+   
   }
 }
