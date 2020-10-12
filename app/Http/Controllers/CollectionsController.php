@@ -483,11 +483,19 @@ class CollectionsController extends Controller
     $idsMoodle = json_decode($activities);
 
     $activities = [];
+    $pending = [];
 
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
 
-      $activities[] = $activity;
+      $pendingActivities = InscritoActividad::where('idacividad', $activity->idActividad)
+      ->where('estado', 'Sin entrega')
+      ->orWhere('estado', 'No')->get();
+
+      $activities['activity'] = $activity;
+      $activities['pending'] = $pendingActivities;
+ 
+
     }
 
     return $activities;
