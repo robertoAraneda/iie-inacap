@@ -39,18 +39,5 @@ Route::get('/collection/inscrito/filtered', 'CollectionsController@registeredUse
 //optimización de consultas
 
 Route::get('/course/{idcourseMoodle}/users', 'CollectionsController@findUsersByCourse');
-Route::get('/course/{idMoodle}', 'CollectionsController@findCourseByIdMoodle');
 
-Route::get('/course/{idCourse}/activities', 'CollectionsController@findActivitiesByCourse');
-
-Route::get('/users/{iduser}/courses/{idCourse}/activities', 'CollectionsController@findActivitiesByUser');
-
-Route::get('/activities/{idActviityMoodle}', 'CollectionsController@findActivityByIdMoodle');
-
-Route::get('/activity/{id}', 'CollectionsController@findActivityById');
-
-Route::get('/course/{idCourse}/users/{rut}', 'CollectionsController@findUserByRut');
-
-Route::get('/users/{idUser}/courses/{idcourses}/activities/{arrayActivities}', 'CollectionsController@findContributeActivity');
-
-Route::get('/users/activities/{idActivityMoodle}', 'CollectionsController@findPendingActivitiesByUser');
+Route::get('/activities/{id}/course-users', 'CollectionsController@findUsersByPendingActivity');

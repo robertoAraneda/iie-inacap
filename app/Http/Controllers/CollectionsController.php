@@ -477,4 +477,19 @@ class CollectionsController extends Controller
 
     return response()->json($activity, 200);
   }
+
+  public function findUsersByPendingActivity($activities)
+  {
+    $idsMoodle = json_decode($activities);
+
+    $activities = [];
+
+    foreach ($idsMoodle as $idActivity) {
+      $activity = AppActividades::where('idmod', $idActivity)->first();
+
+      $activities[] = $activity;
+    }
+
+    return $activities;
+  }
 }
