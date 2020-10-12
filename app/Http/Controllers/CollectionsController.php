@@ -485,27 +485,52 @@ class CollectionsController extends Controller
     $activities = [];
     $pending = [];
 
+    $userFinal = [];
+
+    $users = [];
+
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
 
-      $pendingActivities1 = InscritoActividad::where('idacividad', $activity->idactividad)
-      ->where('estado', 'Sin entrega')
-      ->get();
+      if ($activity->tipo == 'Tareas') {
+        $pending = InscritoActividad::where('idacividad', $activity->idactividad)
+          ->where('estado', 'Sin entrega')
+          ->get()->map(function($user){
+            return $user->idinscrito;
+          });
+      } else {
+        $pending = InscritoActividad::where('idacividad', $activity->idactividad)
+          ->where('estado', 'No')
+          ->get()->map(function($user){
+            return $user->idinscrito;
+          });
+      }
 
-      $pendingActivities2= InscritoActividad::where('idacividad', $activity->idactividad)
-      ->where('estado', 'No')
-      ->get();
+    
+/* 
+      foreach ($pending as $user) {
+        foreach ($users as $u) {
+          $index = array_search($user, $u);
+        }
+       
+      } */
 
-      $activities['count_sin_entrega'] = count($pendingActivities1);
-      $activities['count_no'] = count($pendingActivities2);
+
+
+
+
+
+
+
+
+      $activities['count_sin_entrega'] = count($pending);
+      $activities['count_no'] = count($pending);
       $activities['activity'] = $activity;
-      $activities['sin_entrega'] = $pendingActivities1;
-      $activities['no'] = $pendingActivities2;
+      $activities['sin_entrega'] = $pending;
+      $activities['no'] = $pending;
       $activities['idMysql'] = $activity->idactividad;
       $activities['idmoodle'] = $idActivity;
       return $activities;
     }
-
-   
   }
 }
