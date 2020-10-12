@@ -507,7 +507,7 @@ class CollectionsController extends Controller
       }
 
       if (count($users) == 0) {
-        $users = $pending;
+        $users = (array) $pending;
       } else {
         foreach ($pending as $id) {
           $index = array_search($id, $users);
