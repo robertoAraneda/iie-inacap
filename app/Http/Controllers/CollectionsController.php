@@ -513,7 +513,7 @@ class CollectionsController extends Controller
           $index = array_search($id, $users);
           $userFinal[] = $index;
 
-          return $id;
+          return $users;
         }
       }
       $activities['count_sin_entrega'] = count($pending);
