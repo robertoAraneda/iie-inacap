@@ -512,6 +512,8 @@ class CollectionsController extends Controller
         foreach ($pending as $id) {
           $index = array_search($id, $users);
           $userFinal[] = $index;
+
+          return $id;
         }
       }
       $activities['count_sin_entrega'] = count($pending);
