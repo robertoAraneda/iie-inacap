@@ -507,7 +507,6 @@ class CollectionsController extends Controller
       }
 
       if (count($users) == 0) {
-
         foreach ($pending as $value) {
           $users[] = $value;
         }
@@ -517,7 +516,7 @@ class CollectionsController extends Controller
           $indexes[] = $index;
 
           if(!$index){
-            array_splice($users, $index, 1);
+            unset($users[$index]);
           }
         }
       }
