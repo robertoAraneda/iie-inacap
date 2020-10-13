@@ -514,17 +514,18 @@ class CollectionsController extends Controller
       } else {
         foreach ($pending as $id) {
           $index = array_search($id, $users);
-          if($index){
+
+          if(!$index){
             array_splice($users, $index, 1);
           }
         }
       }
-      $activities['count_sin_entrega'] = count($pending);
-      $activities['count_no'] = count($pending);
+      $activities['count_sin_entrega'] = count($users);
+      $activities['count_no'] = count($users);
       $activities['activity'] = $activity;
-      $activities['index'] = $userFinal;
-      $activities['sin_entrega'] = $pending;
-      $activities['no'] = $pending;
+      $activities['index'] = $users;
+      $activities['sin_entrega'] = $users;
+      $activities['no'] = $users;
       $activities['idMysql'] = $activity->idactividad;
       $activities['idmoodle'] = $idActivity;
 
