@@ -521,6 +521,7 @@ class CollectionsController extends Controller
         }
       }
       $activities['count_sin_entrega'][] = count($users);
+      $activities['pending'][] = count($pending);
       $activities['count_no'] = count($users);
       $activities['activity'][] = $activity;
       $activities['index'] = $users;
