@@ -491,13 +491,14 @@ class CollectionsController extends Controller
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
       $pending = [];
-      if ($activity->tipo == 'Tareas') {
-        $pending = InscritoActividad::where('idacividad', $activity->idactividad)
-          ->where('estado', 'Sin entrega')
-          ->get()->map(function ($user) {
-            return $user->idinscrito;
-          });
-      } else {
+
+      $pending = InscritoActividad::where('idacividad', $activity->idactividad)
+        ->where('estado', 'Sin entrega')
+        ->get()->map(function ($user) {
+          return $user->idinscrito;
+        });
+
+      if (count($pending) == 0) {
         $pending = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
           ->get()->map(function ($user) {
@@ -512,7 +513,7 @@ class CollectionsController extends Controller
       } else {
         $finalUsers = [];
         for ($i = 0; $i < count($pending); $i++) {
-          
+
           $index = array_search($pending[$i], $users);
           $indexes[] = $index;
 
