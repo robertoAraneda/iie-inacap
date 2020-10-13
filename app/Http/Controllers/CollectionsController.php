@@ -514,7 +514,7 @@ class CollectionsController extends Controller
       } else {
         foreach ($pending as $id) {
           $index = array_search($id, $users);
-          if(!$index){
+          if($index){
             array_splice($users, $index, 1);
           }
         }
