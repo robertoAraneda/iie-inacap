@@ -515,14 +515,14 @@ class CollectionsController extends Controller
         foreach ($pending as $id) {
           $index = array_search($id, $users);
 
-          if($index){
+          if(!$index){
             array_splice($users, $index, 1);
           }
         }
       }
-      $activities['count_sin_entrega'] = count($users);
+      $activities['count_sin_entrega'][] = count($users);
       $activities['count_no'] = count($users);
-      $activities['activity'] = $activity;
+      $activities['activity'][] = $activity;
       $activities['index'] = $users;
       $activities['sin_entrega'] = $users;
       $activities['no'] = $users;
