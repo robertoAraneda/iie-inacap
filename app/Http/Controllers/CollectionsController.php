@@ -488,7 +488,6 @@ class CollectionsController extends Controller
     $indexes = [];
 
     $users = [];
-    $finalUsers = [];
 
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
@@ -512,14 +511,15 @@ class CollectionsController extends Controller
           $users[] = $value;
         }
       } else {
-        for ($i=0; $i < count($pending); $i++) { 
+        $finalUsers = [];
+        for ($i = 0; $i < count($pending); $i++) {
+          
+          $index = array_search($pending[$i], $users);
+          $indexes[] = $index;
 
-            $index = array_search($pending[$i], $users);
-            $indexes[] = $index;
-
-            if($index){
-              $finalUsers[] = $pending[$i];
-            } 
+          if ($index) {
+            $finalUsers[] = $pending[$i];
+          }
         }
         $users = $finalUsers;
       }
@@ -527,11 +527,10 @@ class CollectionsController extends Controller
       $activities['users'][] = count($users);
       $activities['pending'][] = count($pending);
       $activities['activity'][] = $activity;
-      $activities['index'][]= $indexes;
+      $activities['index'][] = $indexes;
       $activities['sin_entrega'][] = $users;
       $activities['idMysql'] = $activity->idactividad;
       $activities['idmoodle'] = $idActivity;
-
     }
 
     return $activities;
