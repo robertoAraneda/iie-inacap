@@ -527,10 +527,7 @@ class CollectionsController extends Controller
       $activities['users'][] = count($users);
       $activities['pending'][] = count($pending);
       $activities['activity'][] = $activity;
-      $activities['index'][] = $indexes;
-      $activities['sin_entrega'][] = $users;
-      $activities['idMysql'] = $activity->idactividad;
-      $activities['idmoodle'] = $idActivity;
+      $activities['finalUser'][] = $users;
     }
 
     return $activities;
