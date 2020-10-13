@@ -483,7 +483,6 @@ class CollectionsController extends Controller
     $idsMoodle = json_decode($activities);
 
     $activities = [];
-    $pending = [];
 
     $indexes = [];
 
@@ -491,7 +490,7 @@ class CollectionsController extends Controller
 
     foreach ($idsMoodle as $idActivity) {
       $activity = AppActividades::where('idmod', $idActivity)->first();
-
+      $pending = [];
       if ($activity->tipo == 'Tareas') {
         $pending = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'Sin entrega')
