@@ -488,44 +488,59 @@ class CollectionsController extends Controller
 
     $users = [];
 
-    foreach ($idsMoodle as $idActivity) {
-      $activity = AppActividades::where('idmod', $idActivity)->first();
-      $pending = [];
+    $z = 0;
 
-      $pending = InscritoActividad::where('idacividad', $activity->idactividad)
+    $check = [];
+
+    foreach ($idsMoodle as $idActivity) {
+      $z++;
+
+      $activity = AppActividades::where('idmod', $idActivity)->first();
+      $userWithPendingActivities = [];
+
+      $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
         ->where('estado', 'Sin entrega')
         ->get()->map(function ($user) {
           return $user->idinscrito;
         });
 
-      if (count($pending) == 0) {
-        $pending = InscritoActividad::where('idacividad', $activity->idactividad)
+      if (count($userWithPendingActivities) == 0) {
+        $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
           ->get()->map(function ($user) {
             return $user->idinscrito;
           });
       }
 
+      $check[] = $userWithPendingActivities;
+      if ($z == 2) {
+        return $check;
+      }
+
+
+
+
       if (count($users) == 0) {
-        foreach ($pending as $value) {
+        foreach ($userWithPendingActivities as $value) {
           $users[] = $value;
         }
       } else {
         $finalUsers = [];
-        for ($i = 0; $i < count($pending); $i++) {
+        for ($i = 0; $i < count($userWithPendingActivities); $i++) {
 
-          $index = array_search($pending[$i], $users);
+          $index = array_search($userWithPendingActivities[$i], $users);
           $indexes[] = $index;
 
           if ($index) {
-            $finalUsers[] = $pending[$i];
+            $finalUsers[] = $userWithPendingActivities[$i];
           }
         }
         $users = $finalUsers;
       }
 
+
       $activities['users'][] = count($users);
-      $activities['pending'][] = count($pending);
+      $activities['userWithPendingActivities'][] = count($userWithPendingActivities);
       $activities['activity'][] = $activity;
       $activities['finalUser'] = $users;
     }
