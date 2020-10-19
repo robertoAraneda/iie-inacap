@@ -533,6 +533,10 @@ class CollectionsController extends Controller
           $index = array_search($userWithPendingActivities[$i], $users);
           $indexes[] = $index;
 
+          if ($userWithPendingActivities[$i] == '4888901') {
+            $activities['users'][] = $index;
+          }
+
           if ($index) {
             $finalUsers[] = $userWithPendingActivities[$i];
           }
@@ -548,7 +552,6 @@ class CollectionsController extends Controller
 
       $activities['all'][] = $userWithPendingActivities->chunk(10);
       $activities['user_detail'][] = $users;
-
     }
 
     return $activities;
