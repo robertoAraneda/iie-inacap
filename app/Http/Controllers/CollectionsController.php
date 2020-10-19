@@ -522,7 +522,8 @@ class CollectionsController extends Controller
       }
 
       $activities['activity'][] = $activity;
-      $activities['finalUser'] = $users;
+      $activities['countFinalUsers'] = count($users);
+      $activities['finalUsers'] = $users;
 
     }
 
