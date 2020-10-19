@@ -515,7 +515,7 @@ class CollectionsController extends Controller
           $index = array_search($userWithPendingActivities[$i], $users);
 
           if ($index > -1) {
-            $finalUsers[] = $userWithPendingActivities[$i];
+            $finalUsers[] = Inscritos::where('idinscrito',$userWithPendingActivities[$i] )->first();
           }
         }
         $users = $finalUsers;
@@ -526,6 +526,8 @@ class CollectionsController extends Controller
       $activities['finalUsers'] = $users;
 
     }
+
+
 
     return $activities;
   }
