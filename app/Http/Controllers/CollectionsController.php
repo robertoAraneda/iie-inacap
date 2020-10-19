@@ -534,7 +534,7 @@ class CollectionsController extends Controller
           $indexes[] = $index;
 
           if ($userWithPendingActivities[$i] == '4888901') {
-            $activities['users'][] = $index;
+            $activities['index'][] = $index;
           }
 
           if ($index) {
