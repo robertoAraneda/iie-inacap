@@ -500,7 +500,7 @@ class CollectionsController extends Controller
         $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
           ->get()->map(function ($user) {
-            return $user->idinscrito;
+            return $user->iduser;
           });
       }
 
