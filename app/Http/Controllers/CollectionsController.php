@@ -543,6 +543,8 @@ class CollectionsController extends Controller
       $activities['userWithPendingActivities'][] = count($userWithPendingActivities);
       $activities['activity'][] = $activity;
       $activities['finalUser'] = $users;
+
+      $activities['all'][]= $userWithPendingActivities->chunk(10);
     }
 
     return $activities;
