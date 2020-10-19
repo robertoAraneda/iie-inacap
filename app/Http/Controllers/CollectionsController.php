@@ -526,7 +526,7 @@ class CollectionsController extends Controller
             $activities['index'][] = $index;
           }
 
-          if (isset($index)) {
+          if ($index > -1) {
             $finalUsers[] = $userWithPendingActivities[$i];
           }
         }
