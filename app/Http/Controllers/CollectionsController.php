@@ -528,6 +528,10 @@ class CollectionsController extends Controller
     }
 
 
+    foreach ($users as $value) {
+     $activities['users'][] = Inscritos::where('idinscrito', $value)->first();
+    }
+
 
     return $activities;
   }
