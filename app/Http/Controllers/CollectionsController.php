@@ -547,6 +547,8 @@ class CollectionsController extends Controller
       $activities['finalUser'] = $users;
 
       $activities['all'][] = $userWithPendingActivities->chunk(10);
+      $activities['user_detail'][] = $users;
+
     }
 
     return $activities;
