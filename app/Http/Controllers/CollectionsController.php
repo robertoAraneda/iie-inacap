@@ -524,11 +524,13 @@ class CollectionsController extends Controller
 
       if (count($users) == 0) {
         foreach ($userWithPendingActivities as $value) {
+
+          
           $users[] = $value;
         }
       } else {
         $finalUsers = [];
-        for ($i = 0; $i < count($userWithPendingActivities) +1; $i++) {
+        for ($i = 0; $i < count($userWithPendingActivities); $i++) {
 
           $index = array_search($userWithPendingActivities[$i], $users);
           $indexes[] = $index;
