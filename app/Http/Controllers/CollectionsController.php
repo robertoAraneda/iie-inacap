@@ -515,19 +515,14 @@ class CollectionsController extends Controller
           $index = array_search($userWithPendingActivities[$i], $users);
 
           if ($index > -1) {
-            $finalUsers[] = Inscritos::where('idinscrito', $userWithPendingActivities[$i])->first();
+            $finalUsers[] = $userWithPendingActivities[$i];
           }
         }
         $users = $finalUsers;
       }
-
-      $activities['activity'][] = $activity;
-      $activities['countFinalUsers'] = count($users);
-      $activities['finalUsers'] = $users;
     }
 
     $final = [];
-
 
     foreach ($users as $value) {
       $final[]  = Inscritos::where('idinscrito', $value)->first();
