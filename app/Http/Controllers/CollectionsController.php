@@ -527,6 +527,6 @@ class CollectionsController extends Controller
     foreach ($users as $value) {
       $final[]  = Inscritos::where('idinscrito', $value)->first();
     }
-    return $final;
+    return $users;
   }
 }
