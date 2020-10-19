@@ -500,6 +500,7 @@ class CollectionsController extends Controller
 
       $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
         ->where('estado', 'Sin entrega')
+        ->limit(10)
         ->get()->map(function ($user) {
           return $user->idinscrito;
         });
@@ -507,11 +508,12 @@ class CollectionsController extends Controller
       if (count($userWithPendingActivities) == 0) {
         $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
+          ->limit(10)
           ->get()->map(function ($user) {
             return $user->idinscrito;
           });
       }
-/* 
+      /* 
       $check[] = $userWithPendingActivities;
       if ($z == 2) {
         return $check;
@@ -544,7 +546,7 @@ class CollectionsController extends Controller
       $activities['activity'][] = $activity;
       $activities['finalUser'] = $users;
 
-      $activities['all'][]= $userWithPendingActivities->chunk(10);
+      $activities['all'][] = $userWithPendingActivities->chunk(10);
     }
 
     return $activities;
