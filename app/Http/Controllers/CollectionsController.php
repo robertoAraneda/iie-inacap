@@ -526,14 +526,12 @@ class CollectionsController extends Controller
       $activities['finalUsers'] = $users;
     }
 
-    $finalUsers = [];
+    $final = [];
 
 
-    foreach ($activities['finalUsers'] as $value) {
-      $finalUsers[]  = Inscritos::where('idinscrito', $value)->first();
+    foreach ($users as $value) {
+      $final[]  = Inscritos::where('idinscrito', $value)->first();
     }
-
-
-    return $finalUsers;
+    return $final;
   }
 }
