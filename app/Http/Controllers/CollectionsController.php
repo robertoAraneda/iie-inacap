@@ -484,8 +484,6 @@ class CollectionsController extends Controller
 
     $activities = [];
 
-    $indexes = [];
-
     $users = [];
 
     foreach ($idsMoodle as $idActivity) {
@@ -494,7 +492,6 @@ class CollectionsController extends Controller
 
       $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
         ->where('estado', 'Sin entrega')
-        ->limit(10)
         ->get()->map(function ($user) {
           return $user->idinscrito;
         });
@@ -502,7 +499,6 @@ class CollectionsController extends Controller
       if (count($userWithPendingActivities) == 0) {
         $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
-          ->limit(10)
           ->get()->map(function ($user) {
             return $user->idinscrito;
           });
@@ -518,14 +514,6 @@ class CollectionsController extends Controller
 
           $index = array_search($userWithPendingActivities[$i], $users);
 
-          $activities['index'][] = $index;
-          $activities['position_for'][] = $i;
-          $indexes[] = $index;
-
-          if ($userWithPendingActivities[$i] == '4888901') {
-            $activities['index'][] = $index;
-          }
-
           if ($index > -1) {
             $finalUsers[] = $userWithPendingActivities[$i];
           }
@@ -533,14 +521,9 @@ class CollectionsController extends Controller
         $users = $finalUsers;
       }
 
-
-      $activities['users'][] = count($users);
-      $activities['userWithPendingActivities'][] = count($userWithPendingActivities);
       $activities['activity'][] = $activity;
       $activities['finalUser'] = $users;
 
-      $activities['all'][] = $userWithPendingActivities->chunk(10);
-      $activities['user_detail'][] = $users;
     }
 
     return $activities;
