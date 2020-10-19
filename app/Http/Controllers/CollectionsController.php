@@ -511,11 +511,11 @@ class CollectionsController extends Controller
             return $user->idinscrito;
           });
       }
-
+/* 
       $check[] = $userWithPendingActivities;
       if ($z == 2) {
         return $check;
-      }
+      } */
 
 
 
