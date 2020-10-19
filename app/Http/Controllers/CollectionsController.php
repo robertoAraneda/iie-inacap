@@ -528,7 +528,7 @@ class CollectionsController extends Controller
         }
       } else {
         $finalUsers = [];
-        for ($i = 0; $i < count($userWithPendingActivities); $i++) {
+        for ($i = 0; $i < count($userWithPendingActivities +1); $i++) {
 
           $index = array_search($userWithPendingActivities[$i], $users);
           $indexes[] = $index;
