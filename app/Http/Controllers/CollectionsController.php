@@ -488,13 +488,7 @@ class CollectionsController extends Controller
 
     $users = [];
 
-    $z = 0;
-
-    $check = [];
-
     foreach ($idsMoodle as $idActivity) {
-      $z++;
-
       $activity = AppActividades::where('idmod', $idActivity)->first();
       $userWithPendingActivities = [];
 
@@ -513,19 +507,9 @@ class CollectionsController extends Controller
             return $user->idinscrito;
           });
       }
-      /* 
-      $check[] = $userWithPendingActivities;
-      if ($z == 2) {
-        return $check;
-      } */
-
-
-
 
       if (count($users) == 0) {
         foreach ($userWithPendingActivities as $value) {
-
-          
           $users[] = $value;
         }
       } else {
@@ -533,6 +517,9 @@ class CollectionsController extends Controller
         for ($i = 0; $i < count($userWithPendingActivities); $i++) {
 
           $index = array_search($userWithPendingActivities[$i], $users);
+
+          $activities['index'][] = $index;
+          $activities['position_for'][] = $i;
           $indexes[] = $index;
 
           if ($userWithPendingActivities[$i] == '4888901') {
