@@ -3,92 +3,85 @@
 namespace App;
 
 class ReplaceChar
-
 {
 
   //remplaza los carácteres extraños por letras con tilde o simbolos
-  public static function replaceStrangeCharacterArray($array)
-  {
-
-    $array_primary = [
+    public static function replaceStrangeCharacterArray($array)
+    {
+        $array_primary = [
       'ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿',
       'ÃƒÂ©', 'ÃƒÂ±',
       'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â',
       'Ã¢Â€Â¦', 'Ã‚Â«', 'Ã‚Â»',
-      'í‰', 'í¼', 'ÃƒÂ‘', 'ÃƒÂ'
+      'í‰', 'í¼', 'ÃƒÂ‘', 'ÃƒÂ', 'ÃƒÂ¼', 'ÃƒÂº'
     ];
-    $array_format = [
+        $array_format = [
       'ó', 'á', '¿',
       'é', 'ñ',
       '°', '"', '"',
       '...', '«', '»',
-      'É', 'ü', 'Ñ', 'í'
+      'É', 'ü', 'Ñ', 'í', 'ü', 'ú'
     ];
 
-    foreach ($array as $element) {
+        foreach ($array as $element) {
+            if (isset($element->nombre)) {
+                $name = $element->nombre;
 
-      if (isset($element->nombre)) {
+                $element->nombre = str_replace($array_primary, $array_format, $name);
+            }
 
-        $name = $element->nombre;
+            if (isset($element->ultimoacceso)) {
+                $lastaccess = $element->ultimoacceso;
 
-        $element->nombre = str_replace($array_primary, $array_format, $name);
-      }
+                $element->ultimoacceso = str_replace($array_primary, $array_format, $lastaccess);
+            }
+        }
 
-      if (isset($element->ultimoacceso)) {
-
-        $lastaccess = $element->ultimoacceso;
-
-        $element->ultimoacceso = str_replace($array_primary, $array_format, $lastaccess);
-      }
+        return $array;
     }
 
-    return $array;
-  }
+
+    public static function replaceVocalUpperCaseString($string)
+    {
+        $arrayStrageCharacter = ['í', 'í‰', 'í', 'í“', 'íš', 'ÃƒÂ‘', 'ÃƒÂ‰', 'ÃƒÂ', 'ÃƒÂ', 'ÃƒÂ“', 'ÃƒÂš', 'ÃƒÂƒ', 'ÃƒÂ‹', 'ÃƒÂˆ', 'ÃƒÂ€'];
+
+        $arrayCorrectCharacter = ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', 'É', 'Í', 'Á', 'Ó', 'Ú', 'Ó', 'Ë', 'É', 'Á'];
+
+        return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+    }
 
 
-  public static function replaceVocalUpperCaseString($string)
-  {
-    $arrayStrageCharacter = ['í', 'í‰', 'í', 'í“', 'íš', 'ÃƒÂ‘', 'ÃƒÂ‰', 'ÃƒÂ', 'ÃƒÂ', 'ÃƒÂ“', 'ÃƒÂš', 'ÃƒÂƒ', 'ÃƒÂ‹', 'ÃƒÂˆ', 'ÃƒÂ€'];
+    public static function replaceCharacterString($string)
+    {
+        $arrayStrageCharacter = ['Ã‚Â', 'Ã¢Â€Âœ', 'Ã¢Â€Â', 'Ã¢Â€Â¦'];
 
-    $arrayCorrectCharacter = ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', 'É', 'Í', 'Á', 'Ó', 'Ú', 'Ó', 'Ë', 'É', 'Á'];
+        $arrayCorrectCharacter = ['', '"', '"', '... '];
 
-    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
-  }
+        return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+    }
 
+    public static function replaceVocalLowerCaseString($string)
+    {
+        $arrayStrageCharacter = ['ÃƒÂ¡', 'ÃƒÂ©', 'ÃƒÂ­', 'ÃƒÂ³', 'ÃƒÂ±', 'í¼'];
 
-  public static function replaceCharacterString($string)
-  {
-    $arrayStrageCharacter = ['Ã‚Â', 'Ã¢Â€Âœ', 'Ã¢Â€Â', 'Ã¢Â€Â¦'];
+        $arrayCorrectCharacter = ['á', 'é', 'í', 'ó', 'ñ', 'ü'];
 
-    $arrayCorrectCharacter = ['', '"', '"', '... '];
-
-    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
-  }
-
-  public static function replaceVocalLowerCaseString($string)
-  {
-    $arrayStrageCharacter = ['ÃƒÂ¡', 'ÃƒÂ©', 'ÃƒÂ­', 'ÃƒÂ³', 'ÃƒÂ±', 'í¼'];
-
-    $arrayCorrectCharacter = ['á', 'é', 'í', 'ó', 'ñ', 'ü'];
-
-    return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
-  }
+        return str_replace($arrayStrageCharacter, $arrayCorrectCharacter, $string);
+    }
 
 
 
 
-  public static function replaceStrangeCharacterString($string)
-  {
-
-
-    $array_primary = [
+    public static function replaceStrangeCharacterString($string)
+    {
+        $array_primary = [
       'ÃƒÂ³', 'ÃƒÂ¡', 'Ã‚Â¿',
       'ÃƒÂ©', 'ÃƒÂ±',
       'Ã‚Â°', 'Ã¢Â€Âœ', 'Ã¢Â€Â',
       'Ã¢Â€Â¦', 'Ã‚Â«', 'Ã‚Â»',
       'í‰', 'í¼', 'ÃƒÂ‘', 'ÃƒÂ'
     ];
-    $array_format = [
+        $array_format = [
       'ó', 'á', '¿',
       'é', 'ñ',
       '°', '"', '"',
@@ -97,6 +90,6 @@ class ReplaceChar
     ];
 
 
-    return str_replace($array_primary, $array_format, $string);
-  }
+        return str_replace($array_primary, $array_format, $string);
+    }
 }

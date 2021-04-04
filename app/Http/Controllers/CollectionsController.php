@@ -386,7 +386,7 @@ class CollectionsController extends Controller
             $activities = [];
             foreach ($array as $key => $value) {
                 $activitiyMoodle = AppActividades::where('idmod', $value)->first();
-                $user = Inscritos::where('iduser', $idUser)->where('idrcurso', $course['idrcurso'])->first();
+                $user = Inscritos::where('iduser', $userMoodle)->where('idrcurso', $course['idrcurso'])->first();
 
                 $activity =  InscritoActividad::where('idinscrito', $user['idinscrito'])->where('idacividad', $activitiyMoodle['idactividad'])->with(['activity', 'userRegistered'])->first();
 
