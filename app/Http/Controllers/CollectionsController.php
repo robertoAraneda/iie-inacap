@@ -468,6 +468,12 @@ class CollectionsController extends Controller
             return $user->idinscrito;
         });
 
+        $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
+        ->where('estado', '-')
+        ->get()->map(function ($user) {
+            return $user->idinscrito;
+        });
+
             if (count($userWithPendingActivities) == 0) {
                 $userWithPendingActivities = InscritoActividad::where('idacividad', $activity->idactividad)
           ->where('estado', 'No')
